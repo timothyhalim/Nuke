@@ -1,0 +1,73 @@
+#! C:/Program Files/Nuke7.0v5/nuke-7.0.5.dll -nx
+version 7.0 v5
+Gizmo {
+ inputs 0
+ addUserKnob {20 Timo}
+ addUserKnob {41 ColorA l "Color A" T GradCreator.ColorA}
+ addUserKnob {41 ColorB l "Color B" T GradCreator.ColorB}
+ addUserKnob {41 Center T GradCreator.Center}
+ addUserKnob {41 Rotation T GradCreator.Rotation}
+ addUserKnob {7 Blur R 0 1000}
+ Blur 20
+ addUserKnob {6 Matte l "Matte Only" +STARTLINE}
+ addUserKnob {41 format l Format T Format.format}
+}
+ Reformat {
+  inputs 0
+  format "1440 810 0 0 1440 810 1 HD_3/4"
+  name Format
+  xpos -40
+  ypos 146
+ }
+ Expression {
+  temp_name0 deg
+  temp_expr0 radians(Rotation)
+  temp_name1 cal
+  channel3 rgba
+  expr3 "smoothstep (0,1,((x-Center.x)*cos(deg)-(y-Center.y)*sin(deg)))"
+  name GradCreator
+  xpos -40
+  ypos 182
+  addUserKnob {20 Timo l Gradient}
+  addUserKnob {18 ColorA l "Color A"}
+  ColorA 1
+  addUserKnob {6 ColorA_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 ColorB l "Color B"}
+  ColorB 0
+  addUserKnob {6 ColorB_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {12 Center}
+  Center {748 214}
+  addUserKnob {7 Rotation R -180 180}
+  Rotation 45
+ }
+ Expression {
+  expr0 input.ColorA.r*a+input.ColorB.r*(1-a)
+  expr1 input.ColorA.g*a+input.ColorB.g*(1-a)
+  expr2 input.ColorA.b*a+input.ColorB.b*(1-a)
+  expr3 1
+  name AssignColor
+  xpos -40
+  ypos 208
+ }
+ Blur {
+  size {{parent.Blur*10}}
+  name Blur1
+  xpos -40
+  ypos 234
+ }
+ Expression {
+  expr0 max(r,g,b)
+  expr1 max(r,g,b)
+  expr2 max(r,g,b)
+  expr3 max(r,g,b)
+  name TurnToMatte
+  xpos -40
+  ypos 272
+  disable {{1-Matte}}
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 298
+ }
+end_group

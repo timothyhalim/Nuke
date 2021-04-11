@@ -1,0 +1,152 @@
+#! C:/Program Files/Nuke9.0v5/nuke-9.0.5.dll -nx
+version 9.0 v5
+Gizmo {
+ inputs 0
+ addUserKnob {20 Timo}
+ addUserKnob {41 color T Constant1.color}
+ addUserKnob {41 Rectangle T Control.Rectangle}
+ addUserKnob {41 Size T Control.Size}
+ addUserKnob {41 Roundness T Control.Roundness}
+ addUserKnob {41 Rotation T Control.Rotation}
+ addUserKnob {41 Invert T Control.Invert}
+}
+ NoOp {
+  inputs 0
+  name Control
+  xpos 821
+  ypos 66
+  addUserKnob {20 Timo}
+  addUserKnob {12 Rectangle}
+  Rectangle {100 150}
+  addUserKnob {14 Size R 0 100}
+  Size {50 100}
+  addUserKnob {7 Roundness}
+  Roundness 0.5
+  addUserKnob {7 Rotation R -180 180}
+  addUserKnob {6 Invert +STARTLINE}
+ }
+set Nf760a000 [stack 0]
+ Expression {
+  channel3 alpha
+  expr3 Radius-(pow(x-Center.x,2)+pow(y-Center.y,2))/Radius
+  name CircleC
+  xpos 1261
+  ypos 138
+  addUserKnob {20 User}
+  addUserKnob {7 Radius R 0 1000}
+  Radius {{min(Control.Size.h,Control.Size.w)*Control.Roundness}}
+  addUserKnob {12 Center}
+  Center {{"( Control.Size.w- min(Control.Size.h,Control.Size.w)*Control.Roundness ) * cos(radians(-Control.Rotation)) - \n( -Control.Size.h + min(Control.Size.h,Control.Size.w)*Control.Roundness )* sin(radians(-Control.Rotation)) \n+ Control.Rectangle.x "} {"(Control.Size.w - min(Control.Size.h,Control.Size.w)*Control.Roundness) * sin(radians(-Control.Rotation)) +\n(-Control.Size.h + min(Control.Size.h,Control.Size.w)*Control.Roundness) * cos(radians(-Control.Rotation)) \n+ Control.Rectangle.y "}}
+ }
+push $Nf760a000
+ Expression {
+  channel3 alpha
+  expr3 Radius-(pow(x-Center.x,2)+pow(y-Center.y,2))/Radius
+  name CircleD
+  xpos 1371
+  ypos 138
+  addUserKnob {20 User}
+  addUserKnob {7 Radius R 0 1000}
+  Radius {{min(Control.Size.h,Control.Size.w)*Control.Roundness}}
+  addUserKnob {12 Center}
+  Center {{"( - Control.Size.w + min(Control.Size.h,Control.Size.w)*Control.Roundness ) * cos(radians(-Control.Rotation)) - \n( -Control.Size.h + min(Control.Size.h,Control.Size.w)*Control.Roundness )* sin(radians(-Control.Rotation)) \n+ Control.Rectangle.x "} {"(-Control.Size.w + min(Control.Size.h,Control.Size.w)*Control.Roundness) * sin(radians(-Control.Rotation)) +\n(-Control.Size.h + min(Control.Size.h,Control.Size.w)*Control.Roundness) * cos(radians(-Control.Rotation)) \n+ Control.Rectangle.y "}}
+ }
+push $Nf760a000
+ Expression {
+  channel3 alpha
+  expr3 Radius-(pow(x-Center.x,2)+pow(y-Center.y,2))/Radius
+  name CircleB
+  xpos 1151
+  ypos 138
+  addUserKnob {20 User}
+  addUserKnob {7 Radius R 0 1000}
+  Radius {{min(Control.Size.h,Control.Size.w)*Control.Roundness}}
+  addUserKnob {12 Center}
+  Center {{"( Control.Size.w- min(Control.Size.h,Control.Size.w)*Control.Roundness ) * cos(radians(-Control.Rotation)) - \n( Control.Size.h - min(Control.Size.h,Control.Size.w)*Control.Roundness )* sin(radians(-Control.Rotation)) \n+ Control.Rectangle.x "} {"(Control.Size.w - min(Control.Size.h,Control.Size.w)*Control.Roundness) * sin(radians(-Control.Rotation)) +\n(Control.Size.h - min(Control.Size.h,Control.Size.w)*Control.Roundness) * cos(radians(-Control.Rotation)) \n+ Control.Rectangle.y "}}
+ }
+push $Nf760a000
+ Expression {
+  channel3 alpha
+  expr3 Radius-(pow(x-Center.x,2)+pow(y-Center.y,2))/Radius
+  name CircleA
+  xpos 1041
+  ypos 138
+  addUserKnob {20 User}
+  addUserKnob {7 Radius R 0 1000}
+  Radius {{min(Control.Size.h,Control.Size.w)*Control.Roundness}}
+  addUserKnob {12 Center}
+  Center {{"( - Control.Size.w + min(Control.Size.h,Control.Size.w)*Control.Roundness ) * cos(radians(-Control.Rotation)) - \n( Control.Size.h - min(Control.Size.h,Control.Size.w)*Control.Roundness )* sin(radians(-Control.Rotation)) \n+ Control.Rectangle.x "} {"(-Control.Size.w + min(Control.Size.h,Control.Size.w)*Control.Roundness) * sin(radians(-Control.Rotation)) +\n(Control.Size.h - min(Control.Size.h,Control.Size.w)*Control.Roundness) * cos(radians(-Control.Rotation)) \n+ Control.Rectangle.y "}}
+ }
+push 0
+push $Nf760a000
+ Expression {
+  temp_name0 deg
+  temp_expr0 radians(Rotation)
+  channel0 none
+  channel1 none
+  channel2 none
+  channel3 alpha
+  expr3 "smoothstep (0,1,(x-Center.x)*cos(deg)-(y-Center.y)*sin(deg)+Size.w) *\nsmoothstep (0,1,1-((x-Center.x)*cos(deg)-(y-Center.y)*sin(deg)-Size.w)) * \nsmoothstep (0,1,(x-Center.x)*sin(deg)+(y-Center.y)*cos(deg)+Size.h) *\nsmoothstep (0,1,1-((x-Center.x)*sin(deg)+(y-Center.y)*cos(deg)-Size.h))"
+  name Horizontal
+  xpos 821
+  ypos 138
+  addUserKnob {20 User}
+  addUserKnob {12 Center}
+  Center {{Control.Rectangle.x} {Control.Rectangle.y}}
+  addUserKnob {14 Size R 0 100}
+  Size {{Control.Size.h-(min(Control.Size.h,Control.Size.w)*Control.Roundness)} {Control.Size.w}}
+  addUserKnob {7 Rotation R 0 360}
+  Rotation {{Control.Rotation+90}}
+ }
+push $Nf760a000
+ Expression {
+  temp_name0 deg
+  temp_expr0 radians(Rotation)
+  channel0 none
+  channel1 none
+  channel2 none
+  channel3 alpha
+  expr3 "smoothstep (0,1,(x-Center.x)*cos(deg)-(y-Center.y)*sin(deg)+Size.w) *\nsmoothstep (0,1,1-((x-Center.x)*cos(deg)-(y-Center.y)*sin(deg)-Size.w)) * \nsmoothstep (0,1,(x-Center.x)*sin(deg)+(y-Center.y)*cos(deg)+Size.h) *\nsmoothstep (0,1,1-((x-Center.x)*sin(deg)+(y-Center.y)*cos(deg)-Size.h))"
+  name Vertical
+  xpos 931
+  ypos 138
+  addUserKnob {20 User}
+  addUserKnob {12 Center}
+  Center {{Control.Rectangle.x} {Control.Rectangle.y}}
+  addUserKnob {14 Size R 0 100}
+  Size {{Control.Size.w-min(Control.Size.h,Control.Size.w)*Control.Roundness} {Control.Size.h}}
+  addUserKnob {7 Rotation R 0 360}
+  Rotation {{Control.Rotation}}
+ }
+ Merge2 {
+  inputs 6+1
+  operation max
+  name Merge1
+  xpos 821
+  ypos 203
+ }
+push 0
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 0 0 0}
+  color_panelDropped true
+  format {{{root.format}}}
+  name Constant1
+  xpos 711
+  ypos 225
+ }
+ Merge2 {
+  inputs 2+1
+  operation mask
+  invert_mask {{1-Control.Invert}}
+  name Merge2
+  xpos 821
+  ypos 248
+ }
+ Output {
+  name Output1
+  xpos 821
+  ypos 316
+ }
+end_group

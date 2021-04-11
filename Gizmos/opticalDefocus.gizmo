@@ -1,0 +1,433 @@
+#! C:/Program Files/Nuke9.0v5/nuke-9.0.5.dll -nx
+version 9.0 v5
+add_layer {PointCameraRAW_VRE PointCameraRAW_VRE.red PointCameraRAW_VRE.green PointCameraRAW_VRE.blue}
+Gizmo {
+ inputs 2
+ knobChanged "\nimport math\n\nn = nuke.thisNode()\nk = nuke.thisKnob()\n\nif k.name() == 'filter_type':\n    hide = \['aspect', 'shape', 'blades', 'roundness', 'rotation', 'inner_size', 'inner_feather', 'inner_brightness', 'catadioptric_size', 'catadioptric']\n    \n    value = k.value()\n    zdefocus = \[node for node in n.nodes() if node.name() == 'ZDefocus' ]\[0]\n    zdefocus\['filter_type'].setValue(value)\n    \n    if value == 'disc':\n        unhide = \['aspect', 'shape']\n    elif value == 'bladed' :\n        unhide = \['aspect', 'blades', 'roundness', 'rotation', 'inner_size', 'inner_feather', 'inner_brightness', 'catadioptric_size', 'catadioptric']\n    \n    for hk in hide:\n        n\[hk].setFlag(nuke.INVISIBLE)\n    for uk in unhide:\n        n\[uk].clearFlag(nuke.INVISIBLE)\n\nelif k.name() == 'getFocus':\n    target = nuke.toNode( n\['zdepthNode'].value() )\n    value = nuke.sample(target, 'red', k.value()\[0], k.value()\[1]) \n    n\['distance'].setValue(value)\n\nelif k.name() == 'inputChange':\n    searchArea = n.input(1)\n    searchKnob = \['autoFocus', 'viewSearchArea']\n    for k in searchKnob:\n        if searchArea != None:\n            n\[k].clearFlag(nuke.INVISIBLE)\n        elif searchArea == None:\n            n\[k].setFlag(nuke.INVISIBLE)\n\nelif k.name() == 'cameraData':\n    readOnly = \['fNumber', 'hyperFocal', 'nearFocus', 'farFocus', 'dof']\n    for knob in n.knobs():\n        if knob in readOnly:\n            n\[knob].setFlag(nuke.READ_ONLY)\nelif k.name() == 'fStop':\n    value = float(\"%.1f\" %math.pow( 2, k.value()/2))\n    n\['fView'].setValue(value)\nelif k.name() == 'fView':\n    value = math.log(k.value(),2)*2\n    n\['fStop'].setValue(value)\n"
+ addUserKnob {20 Timo l Timo.ink}
+ addUserKnob {26 title l "" +STARTLINE T "<center><b><font size=\"6\" color=\"white\">Physical Defocus</font></b></center>"}
+ addUserKnob {26 credit l "" +STARTLINE T "<center><b><font color=\"white\">by Timo.ink</font></b></center>"}
+ addUserKnob {26 channelData l "<font color=\"white\"><b>Channels"}
+ addUserKnob {41 channels l "Output Channels" t "Defocused Channels" T ZDefocus.channels}
+ addUserKnob {41 in l "ZDepth Channel" t "ZDepth Channel used for defocusing.\nIt is prefered to use Raw Passes for this (not AntiAliased) for Clean Result." T ZDepthChannel.in}
+ addUserKnob {6 unpremultZDepth l "Unpremult ZDepth" t "Unpremult ZDepth by alpha" +STARTLINE}
+ addUserKnob {6 fillBG l "Fill BG" t "Fill ZDepth Background with Infinity" -STARTLINE}
+ fillBG true
+ addUserKnob {26 camData l "<font color=\"white\"><b>Camera Data"}
+ addUserKnob {7 fView l F/Stop R 1 64}
+ fView 2
+ addUserKnob {7 fStop l "" -STARTLINE R 0 10}
+ fStop 2
+ addUserKnob {7 focalLength l "Focal Length (mm)" t "Focal Length of Camera Lens, affecting the depth of field.\nHigher the Focal Length value would result in smaller focus area" R 3 200}
+ focalLength 45
+ addUserKnob {7 CoC l "CoC (mm)" R 0.004 0.05}
+ CoC 0.023
+ addUserKnob {13 pos l "Camera Position" t "Position of camera.\nUseful if you are using World Position for ZDepth Channel. Set to Zero Otherwise."}
+ addUserKnob {22 getFromMetadata l "Get Camera Metadata" t "Set Camera F/Stop, Focal Length, and Position by using Vray EXR Metadata" -STARTLINE T "import math\nimport nuke\n\ndef getExrCamDataVray( node ):\n  mDat = node.metadata()\n  reqFields = \['exr/camera%s' % i for i in \['Transform', 'FNumber', 'FocalLength']]\n  if not set( reqFields ).issubset( mDat ):\n    print 'no metdata for camera found'\n    return\n  \n  first = node.firstFrame()\n  last = node.lastFrame()\n  ret = nuke.getFramesAndViews( 'Create Camera from Metadata', '%s-%s' %( first, last ) )\n  fRange = nuke.FrameRange( ret\[0] )\n  \n  for k in \[ 'pos' , 'focalLength']:\n    node\[k].setAnimated()\n  try:\n    f = node.metadata( 'exr/cameraFNumber', nuke.frame())\n    node\['fStop'].setValue( \"%s\" %f )\n  except:\n    print \"Fail to set F-Stop\"\n  \n  task = nuke.ProgressTask( 'Baking camera from meta data in %s' % node.name() )\n  for curTask, frame in enumerate( fRange ):\n    if task.isCancelled():\n      nuke.executeInMainThread( nuke.message, args=( \"Phew!\" ) )\n      break;\n    task.setMessage( 'processing frame %s' % frame )\n    \n    try:\n      matrixCamera = node.metadata( 'exr/cameraTransform', frame) # get camera transform data\n      matrixCreated = nuke.math.Matrix4()\n      \n      for k,v in enumerate(matrixCamera):\n        matrixCreated\[k] = v\n      \n      matrixCreated.rotateX(math.radians(-90)) # this is needed for VRay. It's a counter clockwise rotation\n      translate = matrixCreated.transform(nuke.math.Vector3(0,0,0)) # Get a vector that represents the camera translation  \n\n      node\['pos'].setValueAt(float(translate.x),frame,0)\n      node\['pos'].setValueAt(float(translate.y),frame,1)\n      node\['pos'].setValueAt(float(translate.z),frame,2)\n      \n      focalLength = node.metadata( 'exr/cameraFocalLength', frame )\n      node\['focalLength'].setValueAt(float(focalLength),frame,0)\n      \n    except:\n      print 'Error reading metadata on frame %s' %frame\n      \n    task.setProgress( int( float(curTask) / fRange.frames() *100) )\n\ngetExrCamDataVray( nuke.thisNode() )"}
+ addUserKnob {26 focusData l "<font color=\"white\"><b>Focus"}
+ addUserKnob {12 getFocus l "Get Focus" t "Get Focus Distance using Screen Coordinate"}
+ addUserKnob {6 viewDepth l "View DOF" t "Preview Depth of Field" -STARTLINE}
+ addUserKnob {7 distance l "Focus Point" t "Focus Point of Image.\nFocus Point won't be defocused." R 0 10000}
+ addUserKnob {22 autoFocus l "Auto Focus" t "Auto find Focus Point by using Search Area" T "import nuke\n\ndef averageCharacterZ(zDepthInput, searchArea, scanAccuracy=20):\n  try:\n    min = -99999\n    max = 99999\n    for x in range(zDepthInput.width()):\n      if x % (scanAccuracy) == 0:\n        for y in range (zDepthInput.height()):\n          if y % (scanAccuracy) == 0:\n            valueMask = searchArea.sample('r', x,y)\n            if valueMask == 1:\n              value = zDepthInput.sample('r', x,y)\n              if value > min:\n                min=value\n              if value < max:\n                max=value\n              #print x,y,valueMask, value\n\n    #depthOfField=zDepthInput\[\"dof\"]\n    #depthOfField.setValue(max-min)\n\n    return (max-(max-min)/2)\n  except:\n    print \"Something went wrong, exiting.\"\n\nnode = nuke.thisNode()\nzDepthInput=nuke.toNode(node\[\"zdepthNode\"].value())\nsearchArea=nuke.toNode(node\[\"searchareaNode\"].value())\nscanAccuracy = node\[\"scanAccuracy\"].value()\n\nfocus = averageCharacterZ(zDepthInput, searchArea, scanAccuracy=scanAccuracy)\nnode\[\"distance\"].setValue(focus)" +STARTLINE}
+ addUserKnob {6 viewSearchArea l "View SearchArea" t "Preview Search Area" -STARTLINE}
+ addUserKnob {26 defocus l "<font color=\"white\"><b>Defocus"}
+ addUserKnob {7 blur l "Defocus Blur" t "Defocus amount at infinite distance.\nThe higher the number will result in more blurred image. It will also increase the processing time." R 1 100}
+ blur 10
+ addUserKnob {7 max_blur l "Max Blur" t "Maximum Blur amount in image, \nIf blur amount is higher than maximum value, then it will be clipped." R 1 100}
+ max_blur 20
+ addUserKnob {7 nearBlurMultiplier l "Near Blur" t "Used to adjust blur amount near the camera.\nHigher value would increase the bluriness of area near the camera" R 0 10}
+ addUserKnob {7 farBlurMultiplier l "Far Blur" t "Used to adjust blur amount far of the camera.\nHigher value would increase the bluriness of area far of the camera" R 0 10}
+ addUserKnob {7 edgeBlur l "Edge Blur" t "Used to blur the area between Sharp Zone and Blur Zone. Usefull to fix fringe by Defocus" R 0 5}
+ edgeBlur 1
+ addUserKnob {6 viewEdge l "View Edge" t "Preview Area Affected by Edge Blur" -STARTLINE}
+ addUserKnob {68 filter_type l "filter type" t "Camera Aperture Shape" M {disc bladed "" ""}}
+ addUserKnob {7 aspect l "aspect ratio" R 0 2}
+ aspect 1
+ addUserKnob {7 shape l "filter shape"}
+ shape 1
+ addUserKnob {3 blades +INVISIBLE R 3 50}
+ blades 8
+ addUserKnob {7 roundness +INVISIBLE}
+ roundness 0.2
+ addUserKnob {7 rotation +INVISIBLE R 0 360}
+ addUserKnob {7 inner_size l "inner size" +INVISIBLE}
+ inner_size 0.8
+ addUserKnob {7 inner_feather l "inner feather" +INVISIBLE}
+ inner_feather 1
+ addUserKnob {7 inner_brightness l "inner brightness" +INVISIBLE}
+ inner_brightness 0.6
+ addUserKnob {7 catadioptric_size l "catadioptric size" +INVISIBLE}
+ catadioptric_size 0.3
+ addUserKnob {6 catadioptric -STARTLINE +INVISIBLE}
+ addUserKnob {26 misc l "<font color=\"white\"><b>Misc"}
+ addUserKnob {7 depthMaxDistance l "Depth Max Distance"}
+ depthMaxDistance 1.#INF
+ addUserKnob {22 getMaxDistance l "Get Max Distance" -STARTLINE T "maxValue = -1000.00\nn = nuke.thisNode()\naccuracy = n\['scanAccuracy'].value()\n\ndepthNode = nuke.toNode(n\['zdepthNode'].evaluate())\nfor x in range(depthNode.width()+1):\n    for y in range(depthNode.height()+1):\n        if (x % accuracy == 0) and (y % accuracy == 0):\n            value = depthNode.sample('red', x, y) \n            if value > maxValue:\n                maxValue = value\n\nn\['depthMaxDistance'].setValue(maxValue)"}
+ addUserKnob {7 scanAccuracy l "Scan Pixel Distance" R 0 100}
+ scanAccuracy 20
+ addUserKnob {1 zdepthNode l INVISIBLE +INVISIBLE}
+ zdepthNode applyBG
+ addUserKnob {1 searchareaNode l INVISIBLE +INVISIBLE}
+ searchareaNode Search_Area
+ addUserKnob {14 filmBack l INVISIBLE +INVISIBLE R 0 100}
+ filmBack {24.892 18.669}
+ addUserKnob {7 fNumber l INVISIBLE +INVISIBLE}
+ fNumber {{"pow(2 , (fStop))"}}
+ addUserKnob {7 hyperFocal l INVISIBLE +INVISIBLE}
+ hyperFocal {{"((focalLength*focalLength) / ( fNumber * CoC))/10"}}
+ addUserKnob {7 nearFocus l INVISIBLE +INVISIBLE}
+ nearFocus {{"abs(\n((distance)*(hyperFocal))/\n((hyperFocal)+(distance-(focalLength/10)))\n)"}}
+ addUserKnob {7 farFocus l INVISIBLE +INVISIBLE}
+ farFocus {{"(\n(distance > hyperFocal + (focalLength/10)) ? inf : \n ( (distance*hyperFocal)/\n  (hyperFocal-(distance-(focalLength/10) ) )\n )\n)"}}
+ addUserKnob {7 dof l INVISIBLE +INVISIBLE}
+ dof {{(farFocus-nearFocus)}}
+}
+ Input {
+  inputs 0
+  name Image
+  xpos 266
+  ypos 181
+ }
+set Nffa4f400 [stack 0]
+ Crop {
+  box {0 0 {Image.width} {Image.height}}
+  reformat true
+  crop false
+  name Crop
+  xpos 266
+  ypos 207
+ }
+ Dot {
+  name Dot4
+  xpos 300
+  ypos 233
+ }
+set Nffa4fc00 [stack 0]
+ Dot {
+  name Dot5
+  xpos 300
+  ypos 339
+ }
+set Nffa4f000 [stack 0]
+push $Nffa4fc00
+ Dot {
+  name Dot3
+  xpos 474
+  ypos 233
+ }
+set N6af86000 [stack 0]
+ Shuffle {
+  in PointCameraRAW_VRE
+  in2 alpha
+  alpha red2
+  name ZDepthChannel
+  xpos 440
+  ypos 251
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name KeepRGBA
+  xpos 440
+  ypos 277
+ }
+ Expression {
+  temp_name0 posx
+  temp_expr0 pos.x
+  temp_name1 posy
+  temp_expr1 pos.y
+  temp_name2 posz
+  temp_expr2 pos.z
+  channel0 rgba
+  expr0 "clamp(1-a) < 1 ? pow(pow(r-posx,2)+pow(g-posy,2)+pow(b-posz, 2),1/2) : 0"
+  channel1 none
+  channel2 none
+  channel3 none
+  name ZDepthChannelReader
+  xpos 440
+  ypos 303
+  addUserKnob {20 User}
+  addUserKnob {7 minVal l "Minimum Value" R 0 20000}
+  addUserKnob {7 maxVal l "Maximum Value" R 0 20000}
+  maxVal 10000
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name CopyAlpha
+  xpos 440
+  ypos 329
+  disable {{1-parent.unpremultZDepth}}
+ }
+ Expression {
+  expr0 "isnan( r/a ) ? 0 : r/a"
+  expr1 "isnan( g/a ) ? 0 : g/a"
+  expr2 "isnan( b/a ) ? 0 : b/a"
+  channel3 alpha
+  expr3 "isnan( a/a ) ? 0 : a/a"
+  name Unpremult
+  xpos 440
+  ypos 367
+  disable {{1-parent.unpremultZDepth}}
+ }
+set N7d594c00 [stack 0]
+ Dot {
+  name Dot6
+  xpos 364
+  ypos 371
+ }
+ Expression {
+  channel0 none
+  channel1 none
+  channel2 none
+  channel3 rgba
+  expr3 "clamp(1-a) < 1 ? 0 : inf"
+  name InvertAlpha
+  xpos 330
+  ypos 393
+ }
+push $N7d594c00
+ Merge2 {
+  inputs 2
+  operation disjoint-over
+  invert_mask true
+  name applyBG
+  xpos 440
+  ypos 393
+  disable {{1-parent.fillBG}}
+ }
+ Expression {
+  temp_name0 far
+  temp_expr0 "red > (Data.farFocus)"
+  temp_name1 near
+  temp_expr1 "red < (Data.nearFocus)"
+  temp_name2 farDistance
+  temp_expr2 "clamp((red - (Data.farFocus))/(Data.hyperFocal+(parent.focalLength/10)),0,inf)"
+  temp_name3 nearDistance
+  temp_expr3 "clamp(-1*(red - (Data.nearFocus))/(Data.hyperFocal+(parent.focalLength/10)),0,inf)"
+  channel0 {rgba.red rgba.green rgba.blue none}
+  expr0 " far ? red + (red * (farDistance*farBlurMultiplier)) : \n near ? red - (red * (nearDistance*nearBlurMultiplier)) :\n red"
+  name BlurMultiplier
+  xpos 440
+  ypos 419
+ }
+set N20454c00 [stack 0]
+ Expression {
+  temp_name0 focusZone
+  temp_expr0 "step(Data.nearFocus, r) * (r>=Data.farFocus?0:1)"
+  temp_name1 pickDistance
+  temp_expr1 "step(parent.distance, r) * 1-step(parent.distance*1.01, r) "
+  expr0 "focusZone * 1-pickDistance"
+  expr1 pickDistance
+  expr2 "clamp(-1*(red - (Data.nearFocus))/(Data.hyperFocal+(parent.focalLength/10)),0,inf) +\nclamp((red - (Data.farFocus))/(parent.hyperFocal+(parent.focalLength/10)),0,inf)"
+  channel3 alpha
+  expr3 focusZone
+  name focusZone
+  xpos 559
+  ypos 419
+ }
+set N4eb800 [stack 0]
+ Shuffle {
+  in alpha
+  alpha red
+  name EdgeAlpha
+  xpos 559
+  ypos 469
+ }
+set N63080400 [stack 0]
+ Dot {
+  name Dot1
+  xpos 703
+  ypos 472
+ }
+ Invert {
+  channels rgba
+  name Invert
+  xpos 669
+  ypos 495
+ }
+ Dilate {
+  channels rgba
+  size {{parent.edgeBlur*2}}
+  name Dilate
+  xpos 669
+  ypos 521
+ }
+push $N63080400
+ Dilate {
+  channels rgba
+  size {{parent.edgeBlur*2}}
+  name Dilate1
+  xpos 559
+  ypos 495
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name EdgeMerge
+  xpos 559
+  ypos 521
+ }
+set Nfc28b000 [stack 0]
+ Dot {
+  name Dot7
+  xpos 593
+  ypos 667
+ }
+ Input {
+  inputs 0
+  name SearchArea
+  xpos 166
+  ypos 181
+  number 1
+ }
+ Shuffle {
+  in alpha
+  green red
+  blue red
+  alpha red
+  name Search_Area
+  xpos 166
+  ypos 637
+ }
+push $N6af86000
+ Dot {
+  name Dot8
+  xpos 774
+  ypos 233
+ }
+push $N4eb800
+ Merge2 {
+  inputs 2
+  operation plus
+  mix 0.5
+  name ZDepthPreview
+  xpos 740
+  ypos 419
+ }
+ Text {
+  opacity 0.75
+  message "R : Sharp Zone ( \[if \{\[string equal \[format \"%s\" \[value parent.dof]] \"1.#INF\"]\} \{\[return \"Infinite\"]\} \{\[return \[format \"%.2f\" \[value parent.dof]]]\} ] )\nG : Focus Distance ( \[if \{\[string equal \[format \"%s\" \[value parent.distance]] \"1.#INF\"]\} \{\[return \"Infinite\"]\} \{\[return \[format \"%.2f\" \[value parent.distance]]]\} ] )\nB : Depth Map"
+  font "\[python nuke.defaultFontPathname()]"
+  size {{max(width,height)/40}}
+  leading 0.3
+  yjustify top
+  Transform 1
+  box {{max(width,height)/50} {max(width,height)/50} {input.width-max(width,height)/50} {input.height-max(width,height)/50}}
+  center {1024 429}
+  name infoText
+  xpos 740
+  ypos 611
+ }
+push $Nfc28b000
+push $N20454c00
+push $Nffa4f000
+ Dot {
+  name Dot2
+  xpos 300
+  ypos 455
+ }
+add_layer {ti_ZDepth ti_ZDepth.z}
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 ti_ZDepth.z
+  name CopyDepth
+  xpos 440
+  ypos 445
+ }
+ ZDefocus2 {
+  z_channel ti_ZDepth.z
+  math depth
+  show_image false
+  center {{distance}}
+  focal_point {0 0}
+  dof {{"isnan( (parent.dof != Inf) ? (parent.dof/parent.farFocus)*(1+(parent.distance/parent.hyperFocal)) : (1+(parent.distance/parent.hyperFocal)) ) ? 0 : (parent.dof != Inf) ? (parent.dof/parent.farFocus)*(1+(parent.distance/parent.hyperFocal)) : (1+(parent.distance/parent.hyperFocal))" x1 0}}
+  blur_dof false
+  size {{parent.blur}}
+  max_size {{parent.max_blur}}
+  shape {{parent.shape}}
+  aspect {{parent.aspect}}
+  blades {{parent.blades}}
+  roundness {{parent.roundness}}
+  rotation {{parent.rotation}}
+  inner_size {{parent.inner_size}}
+  inner_feather {{parent.inner_feather}}
+  inner_brightness {{parent.inner_brightness}}
+  catadioptric_size {{parent.catadioptric_size}}
+  catadioptric {{parent.catadioptric}}
+  name ZDefocus
+  xpos 440
+  ypos 483
+ }
+ Blur {
+  inputs 1+1
+  channels rgba
+  size {{parent.edgeBlur}}
+  name FixEdge
+  xpos 440
+  ypos 521
+ }
+ Remove {
+  channels ti_ZDepth
+  name CleanUp
+  xpos 440
+  ypos 547
+ }
+ Crop {
+  box {0 0 {Image.width} {Image.height}}
+  reformat true
+  crop false
+  name Crop1
+  xpos 440
+  ypos 585
+ }
+ Switch {
+  inputs 2
+  which {{parent.viewDepth}}
+  name ZDepth_Preview
+  xpos 440
+  ypos 611
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  mix 0.5
+  name SearchArea_Preview
+  xpos 440
+  ypos 637
+  disable {{1-parent.viewSearchArea}}
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  mix 0.5
+  name Edge_Preview
+  xpos 440
+  ypos 663
+  disable {{1-parent.viewEdge}}
+ }
+ Output {
+  name Output
+  xpos 440
+  ypos 689
+ }
+push $Nffa4f400
+ NoOp {
+  name Data
+  xpos 440
+  ypos 181
+  addUserKnob {20 Camera}
+  addUserKnob {7 fNumber l "Actual FNumber"}
+  fNumber {{"pow(2 , (parent.fStop))"}}
+  addUserKnob {7 hyperFocal l "Hyper Focal (cm)"}
+  hyperFocal {{"(pow(parent.focalLength,2) / (parent.fNumber * parent.CoC))/10"}}
+  addUserKnob {7 nearFocus l "Near Focus (cm)"}
+  nearFocus {{"abs(\n((parent.distance)*(parent.hyperFocal))/\n((parent.hyperFocal)+(parent.distance-(parent.focalLength/10)))\n)"}}
+  addUserKnob {7 farFocus l "Far Focus (cm)"}
+  farFocus {{"(\n(parent.distance > parent.hyperFocal + (parent.focalLength/10)) ? inf : \n ( (parent.distance*parent.hyperFocal)/\n  (parent.hyperFocal-(parent.distance-(focalLength/10) ) )\n )\n)"}}
+  addUserKnob {7 dof l "Depth of Field"}
+  dof {{(parent.farFocus-parent.nearFocus)}}
+ }
+end_group

@@ -1,0 +1,172 @@
+#! C:/Program Files/Nuke10.5v8/nuke-10.5.8.dll -nx
+version 10.5 v8
+Gizmo {
+ inputs 2
+ knobChanged "\nn = nuke.thisNode()\nk = nuke.thisKnob()\n\nif k.name() == 'focalPoint':\n    channel = n.node('ZDefocus')\['z_channel'].value()\n    target = n.node('ZDefocus').input(0)\n    value = nuke.sample(target, channel, k.value()\[0], k.value()\[1]) \n    n\['focalDistance'].setValue(value)\n    #n\['start'].setValue(value)\nelif k.name() == 'viewDof':\n    if k.value():\n        n.node('ZDefocus')\['output'].setValue('focal plane setup')\n    else:\n        n.node('ZDefocus')\['output'].setValue('result')\n"
+ addUserKnob {20 Master l Timo.ink}
+ addUserKnob {26 camDiv l Camera}
+ addUserKnob {41 focalLength l "Focal Length" T Data.focalLength}
+ addUserKnob {41 fNumber l Aperture T Data.fNumber}
+ addUserKnob {41 focalDistance l "Focal Distance" T Data.focalDistance}
+ addUserKnob {12 focalPoint l "Focal Point"}
+ addUserKnob {6 viewDof l "View DOF" +STARTLINE}
+ addUserKnob {26 defocusDiv l Defocus}
+ addUserKnob {6 enableDefocus l Enable +STARTLINE}
+ enableDefocus true
+ addUserKnob {41 blurSize l "Blur Size" T ZDefocus.size}
+ addUserKnob {41 maxBlurSize l "Max Blur Size" T ZDefocus.max_size}
+ addUserKnob {6 viewEdge l "View Edge" +STARTLINE}
+ addUserKnob {7 edge l "Fix Edge" R 0 100}
+ edge 1
+ addUserKnob {41 size T Blur1.size}
+}
+ Input {
+  inputs 0
+  name Depth
+  xpos -74
+  ypos -177
+  number 1
+ }
+add_layer {ZDepthRaw_VRE ZDepthRaw_VRE.red ZDepthRaw_VRE.green ZDepthRaw_VRE.blue}
+ Shuffle {
+  in ZDepthRaw_VRE
+  name DepthRaw
+  xpos -74
+  ypos -151
+ }
+set Na20f1800 [stack 0]
+ Dilate {
+  channels rgba
+  size -1
+  name Dilate3
+  selected true
+  xpos -74
+  ypos 7
+ }
+ Dot {
+  name Dot6
+  xpos -40
+  ypos 45
+ }
+ Input {
+  inputs 0
+  name Beauty
+  xpos 42
+  ypos -180
+ }
+set Na20f0800 [stack 0]
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 depth.Z
+  name Depth_Copy
+  xpos 42
+  ypos 35
+ }
+set Na20f0400 [stack 0]
+ Expression {
+  channel0 rgba
+  expr0 "depth.Z > Data.nearFocus && depth.Z < Data.farFocus ? 1 : 0"
+  name Expression1
+  xpos 179
+  ypos 41
+ }
+set Na20f0000 [stack 0]
+ Dilate {
+  channels rgba
+  size {{-edge}}
+  name Dilate1
+  xpos 179
+  ypos 103
+ }
+push $Na20f0000
+ Dilate {
+  channels rgba
+  size {{edge}}
+  name Dilate2
+  xpos 269
+  ypos 103
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  name Merge1
+  xpos 179
+  ypos 206
+ }
+set Na1b35000 [stack 0]
+ Dot {
+  name Dot1
+  xpos 213
+  ypos 266
+ }
+push $Na1b35000
+push $Na20f0400
+ ZDefocus2 {
+  math depth
+  center {{EZDefocus1.Data.focalDistance}}
+  focal_point {-100000 -100000}
+  dof {{EZDefocus1.Data.zdefocusDof x1 0.784383893}}
+  blur_dof false
+  size 8
+  max_size 16
+  name ZDefocus
+  xpos 42
+  ypos 162
+  disable {{!parent.enableDefocus}}
+ }
+ Blur {
+  inputs 1+1
+  size 2
+  name Blur1
+  xpos 42
+  ypos 200
+ }
+ Switch {
+  inputs 2
+  which {{viewEdge}}
+  name Switch1
+  xpos 42
+  ypos 263
+ }
+ Output {
+  name Output1
+  xpos 42
+  ypos 303
+ }
+push $Na20f0800
+ NoOp {
+  name Data
+  xpos 185
+  ypos -180
+  addUserKnob {20 Camera}
+  addUserKnob {7 coc}
+  coc 0.03
+  addUserKnob {7 focalLength R 3 300}
+  focalLength 50
+  addUserKnob {7 fNumber R 1 64}
+  fNumber 8
+  addUserKnob {7 focalDistance R 0 1000}
+  addUserKnob {7 fStop R 0 12}
+  fStop {{2*log(fNumber)/log(2)}}
+  addUserKnob {7 hyperFocal}
+  hyperFocal {{"(pow(focalLength,2) / (fNumber * coc))/10"}}
+  addUserKnob {7 nearFocus}
+  nearFocus {{abs((focalDistance*hyperFocal)/(hyperFocal+(focalDistance-(focalLength/10))))}}
+  addUserKnob {7 farFocus}
+  farFocus {{"focalDistance > hyperFocal + (focalLength/10) ? inf : abs((focalDistance*hyperFocal)/(hyperFocal-(focalDistance-(focalLength/10)))) "}}
+  addUserKnob {7 dof}
+  dof {{abs(farFocus-nearFocus)}}
+  addUserKnob {7 zdefocusDof}
+  zdefocusDof {{"dof != inf && farFocus ? (dof/farFocus) * (1+(focalDistance/hyperFocal)) - ( coc * (fStop/100) ) : (1+(focalDistance/hyperFocal))"}}
+ }
+push $Na20f1800
+ Viewer {
+  frame_range 1-102
+  fps 25
+  viewerProcess None
+  name Viewer1
+  xpos 454
+  ypos 231
+ }
+end_group

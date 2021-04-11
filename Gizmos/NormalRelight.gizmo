@@ -1,0 +1,131 @@
+# Copyright (c) 2019 Timothy Halim Septianjaya, All Rights Reserved.
+# mail@timo.ink
+# Optically correct ZDefocus
+
+add_layer {worldNormals worldNormals.X worldNormals.Y worldNormals.Z}
+Gizmo {
+ name NormalRelight
+ addUserKnob {20 Timo l "Normal Relight"}
+ addUserKnob {41 normal_vectors l "Normal Vectors" t "define Normal Pass" T Shuffle1.in}
+ addUserKnob {41 equator_angle l "Equator Angle" T NormalConvert.equator_angle}
+ addUserKnob {41 polar_height l "Polar Height" T NormalConvert.polar_height}
+ addUserKnob {41 softness l Softness T NormalConvert.softness}
+ addUserKnob {41 multiply l Color T Grade.multiply}
+ addUserKnob {41 blackpoint l "Grade BlackPoint" T Grade.blackpoint}
+ addUserKnob {41 whitepoint l "Grade WhitePoint" T Grade.whitepoint}
+ addUserKnob {41 only_light l "Only Light" t "Enable gives you only light impact and disable gives you compose output." T MergeLight.disable}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -105
+  ypos -228
+ }
+ Dot {
+  name Dot1
+  xpos -71
+  ypos -190
+ }
+ Dot {
+  name Dot3
+  xpos -71
+  ypos -158
+ }
+set N44843800 [stack 0]
+ Dot {
+  name Dot2
+  xpos -71
+  ypos -21
+ }
+set N44843400 [stack 0]
+ Dot {
+  name Dot4
+  xpos -71
+  ypos 37
+ }
+push $N44843400
+push $N44843800
+ Shuffle {
+  in worldNormals
+  in2 alpha
+  alpha red2
+  name Shuffle1
+  xpos -44
+  ypos -162
+ }
+ Expression {
+  temp_name0 colorR
+  temp_expr0 cos(radians(polar_height))*cos(radians(equator_angle))
+  temp_name1 colorG
+  temp_expr1 sin(radians(polar_height))
+  temp_name2 colorB
+  temp_expr2 sin(radians(equator_angle))*cos(radians(polar_height))
+  channel0 rgb
+  expr0 "(colorR * r)+(colorG * g)+(colorB * b) < 0 ? abs(pow((colorR * r)+(colorG * g)+(colorB * b),softness))*-1 : abs(pow((colorR * r)+(colorG * g)+(colorB * b),softness))"
+  channel1 none
+  expr1 " "
+  channel2 none
+  expr2 " "
+  expr3 a
+  name NormalConvert
+  selected true
+  xpos -44
+  ypos -136
+  addUserKnob {20 User}
+  addUserKnob {7 softness l Softness R 0 10}
+  softness 2
+  addUserKnob {7 equator_angle l "Equator Angle" R 0 360}
+  addUserKnob {7 polar_height l "Polar Height" R 0 360}
+ }
+set N49bb3c00 [stack 0]
+ Expression {
+  name Expression1
+  xpos -44
+  ypos -109
+  addUserKnob {20 User}
+  addUserKnob {7 softness}
+ }
+ Expression {
+  expr0 "isnan(r/a) ? 0 : (r/a)"
+  expr1 "isnan(g/a) ? 0 : (g/a)"
+  expr2 "isnan(b/a) ? 0 : (b/a)"
+  expr3 clamp(a/a)
+  name Unpremult
+  xpos -44
+  ypos -83
+ }
+set N47b28800 [stack 0]
+push $N47b28800
+ Grade {
+  inputs 1+1
+  name Grade
+  xpos -44
+  ypos -57
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name CopyAlpha
+  xpos -44
+  ypos -31
+ }
+ Premult {
+  name Premult
+  xpos -44
+  ypos 7
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name MergeLight
+  xpos -44
+  ypos 33
+  disable true
+ }
+ Output {
+  name Output1
+  xpos -44
+  ypos 59
+ }
+end_group

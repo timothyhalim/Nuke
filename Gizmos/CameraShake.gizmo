@@ -1,0 +1,83 @@
+Gizmo {
+ inputs 3
+ addUserKnob {20 timo l Timo.ink}
+ addUserKnob {7 overscan l Overscan t "Overscan amount from maya render. Lower amount may cause black fringe around the image especially if camera shake is extreme"}
+ overscan 0.2
+ addUserKnob {7 shakeMultiplier l "Shake Multiplier" R 0 2}
+ shakeMultiplier 1
+ addUserKnob {41 motionblur l "Motion Blur" t "Motion blur amount" T Card3D.motionblur}
+ addUserKnob {41 format l "Output Format" T Card3D.format}
+ addUserKnob {6 crop -STARTLINE}
+ crop true
+ addUserKnob {41 filter l "Output Filter" T Card3D.filter}
+}
+ Axis2 {
+  inputs 0
+  translate {{"(parent.input1.translate.x*shakeMultiplier + parent.input2.translate.x*(1-shakeMultiplier))"} {"(parent.input1.translate.y*shakeMultiplier + parent.input2.translate.y*(1-shakeMultiplier))"} {"(parent.input1.translate.z*shakeMultiplier + parent.input2.translate.z*(1-shakeMultiplier))"}}
+  rotate {{"(parent.input1.rotate.x*shakeMultiplier + parent.input2.rotate.x*(1-shakeMultiplier))"} {"(parent.input1.rotate.y*shakeMultiplier + parent.input2.rotate.y*(1-shakeMultiplier))"} {"(parent.input1.rotate.z*shakeMultiplier + parent.input2.rotate.z*(1-shakeMultiplier))"}}
+  skew {{"(parent.input1.skew.x*shakeMultiplier + parent.input2.skew.x*(1-shakeMultiplier))"} {"(parent.input1.skew.y*shakeMultiplier + parent.input2.skew.y*(1-shakeMultiplier))"} {"(parent.input1.skew.z*shakeMultiplier + parent.input2.skew.z*(1-shakeMultiplier))"}}
+  pivot {{"(parent.input1.pivot.x*shakeMultiplier + parent.input2.pivot.x*(1-shakeMultiplier))"} {"(parent.input1.pivot.y*shakeMultiplier + parent.input2.pivot.y*(1-shakeMultiplier))"} {"(parent.input1.pivot.z*shakeMultiplier + parent.input2.pivot.z*(1-shakeMultiplier))"}}
+  name Axis1
+  xpos 258
+  ypos 33
+ }
+ Input {
+  inputs 0
+  name CameraShake
+  label "\[value parent.input2.name]"
+  note_font "Bitstream Vera Sans Bold"
+  xpos 565
+  ypos -97
+  number 2
+ }
+ Dot {
+  name Dot1
+  xpos 599
+  ypos 57
+ }
+ Input {
+  inputs 0
+  name IMG
+  label "\[value parent.input0.name]"
+  note_font "Bitstream Vera Sans Bold"
+  xpos 409
+  ypos -97
+ }
+ Card3D {
+  inputs 3
+  scaling {{1+parent.overscan} {1+parent.overscan} 1}
+  uniform_scale 100
+  pivot {0 0 1}
+  lens_in_focal {{parent.input1.focal}}
+  lens_in_haperture {{parent.input1.haperture}}
+  format "1920 1080 0 0 1920 1080 1 FASHIONSHOW Full"
+  motionblur 1
+  name Card3D
+  xpos 409
+  ypos 54
+ }
+ Crop {
+  box {0 0 {width} {height}}
+  reformat true
+  intersect true
+  name Crop
+  xpos 409
+  ypos 140
+  disable {{!parent.crop}}
+ }
+ Output {
+  name Output1
+  xpos 409
+  ypos 207
+ }
+ Input {
+  inputs 0
+  name CameraStill
+  label "\[value parent.input1.name]"
+  note_font "Bitstream Vera Sans Bold"
+  selected true
+  xpos 248
+  ypos -97
+  number 1
+ }
+end_group

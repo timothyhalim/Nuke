@@ -1,0 +1,83 @@
+#! C:/Program Files/Nuke7.0v6/Nuke7.0.exe -nx
+version 7.0 v6
+Gizmo {
+ inputs 2
+}
+ Input {
+  inputs 0
+  name Left
+  xpos 657
+  ypos -295
+ }
+ Reformat {
+  type "to box"
+  box_width {{Left.width+Input2_Reformat.width}}
+  box_height {{height}}
+  box_fixed true
+  resize none
+  center false
+  name Reformat
+  xpos 657
+  ypos -270
+ }
+ set C2432add0 [stack 0]
+set N2432add0 [stack 0]
+ Dot {
+  name Dot1
+  xpos 796
+  ypos -267
+ }
+ Expression {
+  expr3 "x > Left.width ? 1 : 0 "
+  name MakeAlpha
+  xpos 762
+  ypos -223
+ }
+ Input {
+  inputs 0
+  name Right
+  xpos 542
+  ypos -295
+  number 1
+ }
+ Reformat {
+  type scale
+  scale {{Left.height/height} {Left.height/height}}
+  resize height
+  name Input2_Reformat
+  xpos 542
+  ypos -271
+ }
+clone $C2432add0 {
+  xpos 542
+  ypos -247
+  selected false
+ }
+ Transform {
+  translate {{Left.width} 0}
+  center {720 405}
+  name Transform1
+  xpos 542
+  ypos -223
+ }
+push $N2432add0
+ Merge2 {
+  inputs 2+1
+  operation copy
+  name Merge1
+  xpos 657
+  ypos -223
+ }
+ Output {
+  name Output1
+  xpos 657
+  ypos -159
+ }
+ Viewer {
+  input_process false
+  name Viewer1
+  selected true
+  xpos 537
+  ypos -115
+ }
+end_group

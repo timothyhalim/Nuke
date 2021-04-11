@@ -1,0 +1,153 @@
+Gizmo {
+ knobChanged "n=nuke.thisNode()\nk=nuke.thisKnob()\n\nif k.name() == 'useWorldCoordinate':\n\tn\['ScreenCoordinate'].setEnabled(not k.value())\n\tn\['WorldCoordinate'].setEnabled(k.value())\n"
+ addUserKnob {20 Timo l Timo.ink}
+ addUserKnob {41 in l Channel T Channel.in}
+ addUserKnob {6 Preview l "Preview Channel" -STARTLINE}
+ addUserKnob {41 coordinate l Coordinate T Control.col}
+ addUserKnob {26 help_1 l "" +STARTLINE T "Ctrl + Alt to pick coordinate"}
+ addUserKnob {26 div2 l "" +STARTLINE}
+ addUserKnob {41 Colorize T Color.color}
+ addUserKnob {41 Range T Control.Range}
+ addUserKnob {41 Falloff T Control.Falloff}
+ addUserKnob {41 shape l Shape T Control.shape}
+ addUserKnob {41 sx l "Scale XYZ" T Control.sx}
+ addUserKnob {41 sy l "" -STARTLINE T Control.sy}
+ addUserKnob {41 sz l "" -STARTLINE T Control.sz}
+ addUserKnob {41 rx l "Rotation XYZ" T Control.rx}
+ addUserKnob {41 ry l "" -STARTLINE T Control.ry}
+ addUserKnob {41 rz l "" -STARTLINE T Control.rz}
+ addUserKnob {6 matte l "Matte Only" +STARTLINE}
+ addUserKnob {6 invert l Invert -STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 501
+  ypos 16
+ }
+ Dot {
+  name Dot1
+  xpos 535
+  ypos 56
+ }
+set N4b668000 [stack 0]
+ Shuffle {
+  in PointWorldFiltered_VRE
+  name Channel
+  xpos 501
+  ypos 74
+ }
+set N4b669800 [stack 0]
+ Dot {
+  name Dot4
+  xpos 465
+  ypos 78
+ }
+ Dot {
+  name Dot5
+  xpos 465
+  ypos 232
+ }
+push $N4b669800
+ Expression {
+  channel0 rgba
+  expr0 "pow(\n    clamp( 1 - \n        (\n            pow( abs(\n                (red - col.r) - \n                ( (red - col.r) * cos (radians(rz)) - (green - col.g) * sin (radians(rz)) ) - \n                ( (blue - col.b) * sin (radians(ry)) + (red - col.r) * cos (radians(ry)) )\n            )/Range, shape )/sx\n            +\n            pow( abs(\n                (green - col.g) -\n                ( (green - col.g) * cos (radians(rx)) - (blue - col.b) * sin (radians(rx)) ) - \n                ( (red - col.r) * sin (radians(rz)) + (green - col.g) * cos (radians(rx)) ) \n            )/Range, shape )/sy\n            +\n            pow( abs(\n                (blue - col.b) - \n                ( (blue - col.b) * cos (radians(ry)) - (red - col.r) * sin (radians(ry)) ) -\n                ( (green - col.g) * sin (radians(rx)) + (blue - col.b) * cos (radians(rx)) ) \n            )/Range, shape )/sz\n        )\n    )\n, Falloff)"
+  channel1 none
+  channel2 none
+  name Control
+  xpos 501
+  ypos 100
+  addUserKnob {20 User}
+  addUserKnob {18 col l Coordinate}
+  addUserKnob {6 col_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 coordinate_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Coordinate_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 Range R 0 1000}
+  addUserKnob {7 Falloff R 0.001 10}
+  addUserKnob {7 shape l Shape R 0 100}
+  addUserKnob {78 sx l "Ratio XYZ" n 1}
+  addUserKnob {78 sy l "" -STARTLINE n 1}
+  addUserKnob {78 sz l "" -STARTLINE n 1}
+  addUserKnob {78 rx l "Rotation XYZ" n 1}
+  addUserKnob {78 ry l "" -STARTLINE n 1}
+  addUserKnob {78 rz l "" -STARTLINE n 1}
+  Range 100
+  Falloff 0.001
+  shape 2
+  sx 1
+  sy 1
+  sz 1
+ }
+set N4b668c00 [stack 0]
+ Invert {
+  name Invert1
+  xpos 501
+  ypos 134
+  disable {{1-parent.invert}}
+ }
+set N4b668400 [stack 0]
+ Dot {
+  name Dot2
+  xpos 535
+  ypos 179
+ }
+push $N4b668400
+ Constant {
+  inputs 0
+  color {0.5 0 1 1}
+  name Color
+  xpos 611
+  ypos 68
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge2
+  xpos 611
+  ypos 140
+ }
+ Premult {
+  name Premult1
+  xpos 712
+  ypos 140
+ }
+push $N4b668000
+ Dot {
+  name Dot3
+  xpos 848
+  ypos 56
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 814
+  ypos 140
+ }
+ Switch {
+  inputs 2
+  which {{parent.matte}}
+  name Matte_Only
+  xpos 814
+  ypos 175
+ }
+ Switch {
+  inputs 2
+  which {{parent.Preview}}
+  name View_Channel
+  xpos 814
+  ypos 228
+ }
+ Output {
+  name Output1
+  xpos 814
+  ypos 275
+ }
+push $N4b668c00
+ Viewer {
+  frame_range 1-45
+  fps 25
+  name Viewer1
+  xpos 941
+  ypos 140
+ }
+end_group
