@@ -1,0 +1,2545 @@
+#! C:/Program Files/Nuke10.5v8/nuke-10.5.8.dll -nx
+version 10.5 v8
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="2560" h="1392" screen="0">
+        <splitter orientation="1">
+            <split size="46"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1873" stretch="1"/>
+            <splitter orientation="2">
+                <split size="775"/>
+                <dock id="" activePageId="Viewer.2">
+                    <page id="Viewer.1"/>
+                    <page id="Viewer.2"/>
+                </dock>
+                <split size="545"/>
+                <dock id="" activePageId="DAG.2" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                    <page id="DAG.2"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name C:/Users/timothy.septianjaya/Documents/Timo/Scripts/Nuke/Optics.nk
+ frame 187
+ last_frame 187
+ fps 25
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement Nuke
+ workingSpaceLUT linear
+ monitorLut sRGB
+ int8Lut sRGB
+ int16Lut sRGB
+ logLut Cineon
+ floatLut linear
+}
+ProjectControl {
+ inputs 0
+ name BFF
+ note_font "Tw Cen MT Bold Bold"
+ xpos -160
+ ypos -284
+ icon Timo_14.png
+ PNm BestFurryFriends
+ PId BFF
+ Dept CMP
+ NPath "X:/BFF/Episodes/\[value Ep]/Scenes/\[value Sh]/BFF_\[value Ep]_\[value Sh]_\[value Dept].nk"
+ ROPath "S:/BFF/Render/RenderOutput/\[value Ep]/\[value Sh]"
+ ImgPath "S:/BFF/Render/CompOutput/\[value Ep]/\[value Sh]/png"
+ ImgName "BFF_\[value Ep]_\[value Sh]_%04d.png"
+ MovPath "S:/BFF/Render/CompOutput/\[value Ep]/\[value Sh]"
+ MovName "BFF_\[value Ep]_\[value Sh]_CMP_v01.mov"
+ PrePath "S:/BFF/Render/CompOutput/\[value Ep]/\[value Sh]"
+ PreName "BFF_\[value Ep]_\[value Sh]_v01.png"
+ PbPath "X:/BFF/Episodes/\[value Ep]/Preview/Animation/Shots"
+ PbName "BFF_\[value Ep]_\[value Sh]_ANM_v\{take\}.mov"
+ SsLast 2
+ EpLast EP000
+ SqLast 1
+ ShLast SH001.00
+ addUserKnob {20 Data}
+ addUserKnob {26 Headline l "" +STARTLINE T "<font size=\"6\" color=#E0E0E0>BestFurryFriends</font>"}
+ addUserKnob {6 QCMode l "QC Mode" +STARTLINE}
+ addUserKnob {6 LGTMode l "LGT Mode" -STARTLINE}
+ addUserKnob {26 Div1 l "" +STARTLINE}
+ addUserKnob {4 Ss l "Season :" M {2}}
+ addUserKnob {1 SsSearch l "" -STARTLINE}
+ addUserKnob {4 Ep l "Episode :" M {EP115}}
+ addUserKnob {1 EpSearch l "" -STARTLINE}
+ EpSearch 115
+ addUserKnob {4 Sq l "Sequence :" M {1}}
+ addUserKnob {1 SqSearch l "" -STARTLINE}
+ addUserKnob {4 Sh l "Shot :" M {SH001.00 SH002.00 SH003.00 SH004.00 SH005.00 SH006.00 SH007.00 SH008.00 SH009.00 SH010.00 SH011.00 SH012.00 SH013.00 SH014.00 SH015.00 SH016.00 SH017.00 SH018.00 SH019.00 SH020.00 SH021.00 SH022.00 SH023.00 SH024.00 SH025.00 SH026.00 SH027.00 SH028.00 SH029.00 SH030.00 SH031.00 SH032.00 SH033.00 SH034.00 SH035.00 SH036.00 SH037.00 SH038.00 SH039.00 SH040.00 SH041.00 SH042.00 SH043.00 SH044.00 SH045.00 SH046.00 SH047.00 SH048.00 SH049.00 SH050.00 SH051.00 SH052.00 SH053.00 SH054.00 SH055.00 SH056.00 SH057.00 SH058.00 SH059.00 SH060.00 SH061.00 SH062.00 SH063.00 SH064.00 SH065.00 SH066.00 SH067.00 SH068.00 SH069.00 SH070.00 SH071.00 SH072.00 SH073.00 SH074.00 SH075.00 SH076.00 SH077.00 SH078.00 SH079.00 SH080.00 SH081.00 SH082.00 SH083.00 SH084.00 SH085.00 SH086.00 SH087.00 SH088.00 SH089.00 SH090.00 SH091.00 SH092.00 SH093.00 SH094.00 SH095.00 SH096.00 SH097.00 SH098.00 SH099.00 SH100.00 SH101.00 SH102.00 SH103.00 SH104.00 SH105.00 SH106.00 SH107.00 SH108.00 SH109.00 SH110.00 SH111.00 SH112.00 SH113.00 SH114.00 SH115.00 SH116.00 SH117.00 SH118.00 SH119.00 SH120.00 SH121.00 SH122.00 SH123.00 SH124.00 SH125.00 SH126.00 SH127.00 SH128.00 SH129.00 SH130.00 SH131.00 SH132.00 SH133.00 SH134.00 SH135.00 SH136.00 SH137.00 SH138.00 SH139.00 SH140.00 SH141.00 SH142.00 SH143.00 SH144.00 SH145.00 SH146.00 SH147.00 SH148.00 SH149.00 SH150.00 SH151.00 SH152.00 SH153.00 SH154.00 SH155.00 SH156.00}}
+ addUserKnob {1 ShSearch l "" -STARTLINE}
+ addUserKnob {4 File l "File :" M {BFF_EP115_SH001.00_CMP_v01.nk BFF_EP115_SH001.00_CMP_v02.nk BFF_EP115_SH001.00_LGT.nk}}
+ addUserKnob {22 OpenNukescript l "Open File" -STARTLINE T "\nimport nuke\nimport os\nn = nuke.thisNode()\nfilepath = os.path.join(os.path.dirname(n\['NPath'].evaluate()), n\['File'].value())\nif os.path.exists(filepath):\n\t nuke.scriptClear()\n\t nuke.scriptOpen( os.path.normpath(filepath) )\nelse:\n\t nuke.message( os.path.normpath(filepath) + ' does not exists')\n"}
+ addUserKnob {22 OpenNukescriptNew l "Open File in New Window" -STARTLINE T "import nuke\nimport os\nn = nuke.thisNode()\nfilepath = os.path.join(os.path.dirname(n\['NPath'].evaluate()), n\['File'].value())\nif os.path.exists(filepath):\n\tnuke.scriptOpen( os.path.normpath(filepath) )\nelse:\n\tnuke.message( os.path.normpath(filepath) + ' does not exists')\n"}
+ addUserKnob {22 OpenScriptfolder l "Open Folder" -STARTLINE T "\nfrom subprocess import Popen\nimport os\nimport nuke\nn = nuke.thisNode()\nfilepath = os.path.dirname(n\['NPath'].evaluate())\nif os.path.exists(filepath):\n\tPopen(r'explorer '+filepath.replace('/', '\\\\'))\nelse:\n\tnuke.message( os.path.normpath(filepath) + ' does not exists')\n"}
+ addUserKnob {1 Ver l "Version :"}
+ Ver 01
+ addUserKnob {22 SaveNukeScript l "Save Nukefile" -STARTLINE T "\nimport nuke\nn = nuke.thisNode()\nfilepath = n\['NPath'].evaluate()\nnuke.scriptSaveAs( os.path.normpath(filepath) )\n"}
+ addUserKnob {26 Div l "" +STARTLINE}
+ addUserKnob {22 Read -STARTLINE T "\nimport os, nuke, re\n\nseriesData = projectControl.seriesData\n\nnode = nuke.thisNode()\nnodeName = node\['name'].value()\nroRelative = '\[value %s.ROPath]' % nodeName\nro = node\['ROPath'].evaluate()\n\nseason = node\['Ss'].value()\nepisode = node\['Ep'].value()\nsequence = node\['Sq'].value()\nshot = node\['Sh'].value()\n\nwith nuke.root():\n\tfor renderLayer in os.listdir(ro):\n\t\tname = renderLayer\n\t\tfullpath = os.path.join(ro, name)\n\t\tif os.path.isdir(fullpath):\n\t\t\tfileName = None\n\t\t\ttemp = True\n\t\t\tfor fileList in nuke.getFileNameList(fullpath):\n\t\t\t\ttempName = fileList\n\t\t\t\tif not '_tmp' in fileList:\n\t\t\t\t\ttemp = False\n\t\t\t\t\tfileName = tempName\n\t\t\tif temp:\n\t\t\t\tfileName = tempName\n\t\t\tif fileName:\n\t\t\t\tfullpath = os.path.join(roRelative, name, fileName).replace('\\\\', '/')\n\t\t\t\tread = None\n\t\t\t\tif nuke.exists(name):\n\t\t\t\t\tread = nuke.toNode(name)\n\t\t\t\telse:\n\t\t\t\t\tread = nuke.createNode('Read')\n\t\t\t\t\tread\['name'].setValue(name)\n\t\t\n\t\t\t\tif read:\n\t\t\t\t\tread\['file'].fromUserText(fullpath)\n\t\t\t\t\t#read\['reload'].execute()\n\nfileNodes = \[n for n in nuke.allNodes(group=nuke.root()) if 'file' in n.knobs()]\nconnected = \[n for n in fileNodes if re.search('\\\[?(%s)?]' % nodeName, n\['file'].value())]\nfor n in connected:\n\tif n.knob('reload'):\n\t\tn.showControlPanel()\n\t\tif n.knob('read_from_file'):\n\t\t\tn\['read_from_file'].setValue(False)\n\t\t\tn\['read_from_file'].setValue(True)\n\t\telse:\n\t\t\tn.knob('reload').execute()\n\t\tprint n.name() + ' reloaded'\n\nstartframe = seriesData\[season]\[episode]\[sequence]\[shot]\['frameStart']\nendframe = seriesData\[season]\[episode]\[sequence]\[shot]\['frameEnd']\nif startframe and endframe:\n\tnuke.root()\['first_frame'].setValue(startframe)\n\tnuke.root()\['last_frame'].setValue(endframe)\n"}
+ addUserKnob {22 Write -STARTLINE T "\nimport nuke\nimport nuke\nnode = nuke.thisNode()\nnodeName = node\['name'].value()\n\nimport Iris\nreload( Iris )\nproject = Iris.getProject()\ninfo = project.expandVariables( \{\n        'series': str(project),\n        'season': node\['Ss'].value(),\n        'episode': node\['Ep'].value(),\n        'sequence': node\['Sq'].value(),\n        'shot': node\['Sh'].value(),\n        'department': 'COM',\n        'revision': node\['Ver'].value(),\n    \}, dbInfo=True )\ninfo\[ 'revision' ] = node\['Ver'].value()\n\n\ncompFrameName = project.format( node\['ImgName'].toScript(), info )\nprecompName = project.format( node\['PreName'].toScript(), info )\ncompOutputName = project.format( node\['MovName'].toScript(), info )\nframeNumberForm = '%04d'\n\ncreateFolder = 'import os, nuke'+'\\n'\ncreateFolder += 'file = nuke.filename(nuke.thisNode())'+'\\n'\ncreateFolder += 'dir = os.path.dirname(file)'+'\\n'\ncreateFolder += 'osdir = nuke.callbacks.filenameFilter(dir)'+'\\n'\ncreateFolder += 'if not os.path.exists(dir):'+'\\n'\ncreateFolder += '\t try:'+'\\n'\ncreateFolder += '\t\t os.makedirs (osdir)'+'\\n'\ncreateFolder += '\t except OSError:'+'\\n'\ncreateFolder += '\t\t pass'+'\\n'\n\nwith nuke.root():\n\twriteIMG = 'WRITE_IMG'\n\tPNG = None\n\tPathIMG = '\[value %s.ImgPath]/%s' % (nodeName, compFrameName.replace('value ','value %s.' %nodeName))\n\tif nuke.exists (writeIMG):\n\t\tPNG = nuke.toNode(writeIMG)\n\telse:\n\t\tPNG = nuke.createNode( 'Write' )\n\t\tPNG\['name'].setValue(writeIMG)\n\t\n\tif PNG:\n\t\tPNG\['file'].setValue(PathIMG)\n\t\tPNG\['beforeRender'].setValue(createFolder)\n\t\n\twriteMST = 'WRITE_MASTER'\n\tMST = None\n\tPathMST = '\[value %s.PrePath]/%s' % (nodeName, precompName.replace('value ','value %s.' %nodeName))\n\tif nuke.exists (writeMST):\n\t\tMST = nuke.toNode(writeMST)\n\telse:\n\t\tMST = nuke.createNode( 'Write' )\n\t\tMST\['name'].setValue(writeMST)\n\t\n\tif MST:\n\t\tMST\['file'].setValue(PathMST)\n\t\tMST\['beforeRender'].setValue(createFolder)\n\twriteMOV = 'WRITE_MOV'\n\tMOV = None\n\tPathMOV = '\[value %s.MovPath]/%s' %(nodeName, compOutputName.replace('value ','value %s.' %nodeName))\n\tif nuke.exists (writeMOV):\n\t\tMOV = nuke.toNode(writeMOV)\n\telse:\n\t\tMOV = nuke.createNode('Write')\n\t\tMOV\['name'].setValue(writeMOV)\n\t\n\tif MOV:\n\t\tMOV\['file'].setValue(PathMOV)\n\t\tMOV\['colorspace'].setValue('sRGB')\n\t\tMOV\['beforeRender'].setValue(createFolder)\n\t\n\treadPNG = 'READ_PNG'\n\tread = None\n\tif nuke.exists(readPNG):\n\t\tread = nuke.toNode(readPNG)\n\telse:\n\t\tread = nuke.createNode('Read')\n\t\tread\['name'].setValue(readPNG)\n\t\n\tread\['file'].setValue(PathIMG)\n\tread\['first'].setExpression('root.first_frame')\n\tread\['last'].setExpression('root.last_frame')\n\t\n\tMOV.setInput(0,read)\n"}
+ addUserKnob {22 Playblast -STARTLINE T "\nimport os, re\n\ndef string_to_dict(text, pattern):\n\tregex = re.sub(r'\{(.+?)\}', r'(?P<_\1>.+)', pattern)\n\tvalues = list(re.search(regex, text).groups())\n\tkeys = re.findall(r'\{(.+?)\}', pattern)\n\t_dict = dict(zip(keys, values))\n\treturn _dict\n\nproject = projectControl.project\n\nnode = nuke.thisNode()\nnodeName = node\['name'].value()\nseason = node\['Ss'].value()\nepisode = node\['Ep'].value()\nsequence = node\['Sq'].value()\nshot = node\['Sh'].value()\nplayblastName = node\['PbName'].toScript().replace('/','\\\\').replace('value ', 'value \{nodeName\}.'.format(nodeName=nodeName))\nplayblastPath = project.getPreviewPath(project.expandVariables(\{'series':project,\n\n\t'shotDepartment': 'Animation',\n\t'season': season,\n\t'episode': episode,\n\t'sequence': sequence, \n\t'shot': shot,\n\t'shotDepartmentCode': 'ANM',\n\n\}))\nlatestPlayblast = project.findLatestFile(pathForm=playblastPath, fileType='preview')\ntry:\n\ttakeVersion = string_to_dict(latestPlayblast, playblastPath)\['take']\nexcept:\n\n\ttakeVersion = '%02d' %01\n\nplayblastNewPath = os.path.join( '\[value \{nodeName\}.PbPath]'.format(nodeName=nodeName), playblastName.format(take=takeVersion) ).replace('\\\\', '/')\nwith nuke.root():\n\treadPB = 'READ_PLAYBLAST'\n\tread = None\n\tif nuke.exists(readPB):\n\t\tread = nuke.toNode(readPB)\n\telse:\n\t\tread = nuke.createNode('Read')\n\t\tread\['name'].setValue(readPB)\n\nread\['file'].setValue(playblastNewPath)\nread\['first'].setExpression('root.first_frame')\nread\['last'].setExpression('root.last_frame')\n"}
+ addUserKnob {22 QC -STARTLINE +INVISIBLE T "\nimport os, subprocess, nuke\n\ndef probe_file(file):\n\tffprobe = 'H:/3rd_party_tools/ffmpeg 3.3.3/ffprobe.exe'\n\tcommand = \[ffprobe,\n\t\t\t\t'-i', file, \n\t\t\t\t'-select_streams', 'v:0', \n\t\t\t\t'-show_entries', 'stream=nb_frames',\n\t\t\t\t'-of', 'default=noprint_wrappers=1:nokey=1']\n\tp = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n\t#print file\n\tout, err =\tp.communicate()\n\treturn out\n\tif err:\n\t\treturn err\n\ndef run():\n\tseriesData = projectControl.seriesData\n\t\n\tnode = nuke.thisNode()\n\tseason = node\['Ss'].value()\n\tepisode = node\['Ep'].value()\n\tsequence = node\['Sq'].value()\n\tshot = node\['Sh'].value()\n\t\n\tcompOutputPath = node\['MovPath'].evaluate()\n\tcompOutputs = None\n\tif os.path.exists(compOutputPath):\n\t\tcompOutputs = \[vid for vid in os.listdir(compOutputPath) if os.path.isfile(os.path.join(compOutputPath,vid))]\n\t\tcompOutputs.sort(key=lambda x: os.path.getmtime(os.path.join(compOutputPath,x)), reverse=True)\n\t\n\tlatestCO = compOutputs\[0] if compOutputs else None\n\tnode\['Playblast'].execute()\n\tif latestCO:\n\t\twith nuke.root():\n\t\t\tCOFrameCount = int(probe_file( os.path.join(compOutputPath,latestCO) ))\n\t\t\t\n\t\t\tstartframe = seriesData\[season]\[episode]\[sequence]\[shot]\['frameStart']\n\t\t\tendframe = seriesData\[season]\[episode]\[sequence]\[shot]\['frameEnd']\n\t\t\tframeRange = endframe-startframe + 1\n\t\t\t\n\t\t\tif frameRange:\n\t\t\t\tnuke.root()\['first_frame'].setValue(1)\n\t\t\t\tnuke.root()\['last_frame'].setValue(frameRange)\n\t\t\t\n\t\t\tif int(COFrameCount) != int(frameRange):\n\t\t\t\t\tnuke.message('Comp Output FrameCount: %s \\nPlayblast FrameCount: %s \\n\\nDifferent Frame Count!' %(COFrameCount, frameRange))\n\t\t\t\n\t\t\treadCO = 'READ_COMPOUTPUT'\n\t\t\tMOV = None\n\t\t\tPathMOV = '\[value %s.MovPath]/%s' %(node\['name'].value(), latestCO)\n\t\t\tif nuke.exists (readCO):\n\t\t\t\tMOV = nuke.toNode(readCO)\n\t\t\telse:\n\t\t\t\tMOV = nuke.createNode('Read')\n\t\t\t\tMOV\['name'].setValue(readCO)\n\t\t\tMOV\['file'].setValue(PathMOV)\n\t\t\tMOV\['colorspace'].setValue('sRGB')\n\t\t\tMOV\['last'].setValue(COFrameCount)\n\telse:\n\t\tnuke.message('Comp Output not Found')\n\nrun()\n"}
+}
+Read {
+ inputs 0
+ file "\[value BFF.ROPath]/SH/SH.####.exr"
+ format "1280 720 0 0 1280 720 1 HD_720"
+ last 188
+ origlast 188
+ origset true
+ version 1
+ name SH
+ xpos -504
+ ypos -112
+}
+Read {
+ inputs 0
+ file "\[value BFF.ROPath]/MASTERSHOT/UT"
+ origset true
+ version 1
+ name MASTERSHOT
+ xpos -570
+ ypos -243
+}
+Read {
+ inputs 0
+ file "\[value BFF.ROPath]/GLASS/GLASS.####.exr"
+ format "1440 810 0 0 1440 810 1 HD_3/4"
+ last 188
+ origlast 188
+ origset true
+ version 1
+ name GLASS
+ xpos -625
+ ypos -222
+}
+Read {
+ inputs 0
+ file "\[value BFF.ROPath]/UT/UT.####.exr"
+ format "1440 810 0 0 1440 810 1 HD_3/4"
+ last 188
+ origlast 188
+ origset true
+ version 1
+ name UT
+ xpos 494
+ ypos -329
+}
+add_layer {UV_VRE UV_VRE.red UV_VRE.green UV_VRE.blue}
+Shuffle {
+ in UV_VRE
+ name Shuffle2
+ xpos 494
+ ypos -230
+}
+BlinkScript {
+ recompileCount 10
+ ProgramGroup 1
+ KernelDescription "2 \"Ls_Vignette\" iterate pixelWise fad89ee643f7e61e10a640da8fa8cd4e70799439c28113d7a3362b288e381b30 2 \"src\" Read Point \"dst\" Write Point 4 \"Centre\" Float 2 AABwRAAAB0Q= \"Aspect\" Float 1 AACAPw== \"Size\" Float 1 AACgRA== \"Mix\" Float 1 AACAPw== 4 \"centre\" 2 1 \"aspect\" 1 1 \"size\" 1 1 \"mixx\" 1 1 0"
+ kernelSource "kernel Ls_Vignette : ImageComputationKernel<ePixelWise> \{\n  Image<eRead, eAccessPoint, eEdgeClamped> src;\n  Image<eWrite> dst;\n\n  param:\n    float2 centre;\n    float aspect, size, mixx;\n\n  void define() \{\n    defineParam(centre, \"Centre\", float2(960.0f, 540.0f));\n    defineParam(aspect, \"Aspect\", 1.0f);\n    defineParam(size, \"Size\", 1280.0f);\n    defineParam(mixx, \"Mix\", 1.0f);\n  \}\n\n  float mixxx(float from, float to, float factorr) \{\n    return factorr * to + (1.0 - factorr) * from;\n  \}\n\n  void process(int2 pos) \{\n    float2 where;\n    where.x = float(pos.x);\n    where.y = float(pos.y);\n\n    float2 fromcentre = where - centre;\n    fromcentre.y *= aspect;\n    float dist = length(fromcentre);\n    float x = dist / size;\n    x = min(x, 3.1415926535f);\n    float vignette = pow(cos(x), 4.0f);\n    float mixedvignette = mixxx(1.0, vignette, mixx);\n\n    SampleType(src) s = src();\n    s *= mixedvignette;\n    dst() = s;\n  \}\n\};"
+ rebuild ""
+ Ls_Vignette_Centre {744 410}
+ Ls_Vignette_Aspect 1.17
+ Ls_Vignette_Size 1370
+ Ls_Vignette_Mix 2
+ rebuild_finalise ""
+ name BlinkScript1
+ xpos 383
+ ypos -119
+}
+Grade {
+ whitepoint 100000
+ name Grade1
+ xpos 383
+ ypos -81
+}
+Read {
+ inputs 0
+ file "\[value BFF.ROPath]/CH/CH.####.exr"
+ format "1440 810 0 0 1440 810 1 HD_3/4"
+ last 188
+ origlast 188
+ origset true
+ version 1
+ name CH
+ xpos 48
+ ypos -221
+}
+add_layer {worldPositions worldPositions.X worldPositions.Y worldPositions.Z}
+Shuffle {
+ in worldPositions
+ name Shuffle1
+ xpos 383
+ ypos -182
+}
+Group {
+ inputs 0
+ name WavelengthSpectraGEN_v3
+ help "15:05:2020\nWavelenghtGEN_3 v1.0.0\nGuillem Ramisa de Soto"
+ xpos 146
+ ypos -92
+ addUserKnob {20 WavelengthSpectra}
+ addUserKnob {41 "Local GPU: " T BlinkScript4.gpuName}
+ addUserKnob {41 "Use GPU if Available" T BlinkScript4.useGPUIfAvailable}
+ addUserKnob {26 ""}
+ addUserKnob {41 mode T BlinkScript4.WavelengthSpectra_mode}
+ addUserKnob {6 lin -STARTLINE}
+ addUserKnob {41 wavlength T BlinkScript4.WavelengthSpectra_wavlength}
+ addUserKnob {41 increments T BlinkScript4.WavelengthSpectra_increments}
+ addUserKnob {26 ""}
+ addUserKnob {41 format T BlinkScript4.format}
+ addUserKnob {41 specifiedFormat l "Specify output format" -STARTLINE T BlinkScript4.specifiedFormat}
+ addUserKnob {26 ""}
+ addUserKnob {26 leg l "" +STARTLINE T "Blink WavelengthGEN_3 v1.0.0\nGuillem Ramisa de Soto || 2020"}
+}
+ BlinkScript {
+  inputs 0
+  recompileCount 12
+  ProgramGroup 1
+  KernelDescription "2 \"WavelengthSpectra\" iterate pixelWise eebe9f6280cb638d8ed3da06d90627e23c038766c28395bb42cf3a5bc6eebdb7 1 \"dst\" Write Point 3 \"mode\" Bool 1 AA== \"wavlength\" Float 1 AADIQw== \"increments\" Int 1 AAAAAA== 3 \"mode\" 1 1 \"l\" 1 1 \"increments\" 1 1 0"
+  kernelSource "inline float4 spectral_color(float l)\n    \{\n    float t;\n    float r=0.0;\n    float g=0.0;\n    float b=0.0;\n         if ((l>=400.0)&&(l<410.0))\{\n            t= (l-400.0)/(410.0-400.0);\n            r= +(0.33*t)-(0.20*t*t);\n        \}else if ((l>=410.0)&&(l<475.0))\{\n            t=(l-410.0)/(475.0-410.0);\n            r=0.14-(0.13*t*t);\n        \}else if ((l>=545.0)&&(l<595.0))\{\n            t=(l-545.0)/(595.0-545.0);\n            r= +(1.98*t)-(t*t);\n        \}else if ((l>=595.0)&&(l<650.0))\{\n            t=(l-595.0)/(650.0-595.0);\n            r=0.98+(0.06*t)-(0.40*t*t);\n        \}else if ((l>=650.0)&&(l<700.0))\{\n            t=(l-650.0)/(700.0-650.0);\n            r=0.65-(0.84*t)+(0.20*t*t);\n        \}\n\n        if ((l>=415.0)&&(l<475.0))\{\n            t=(l-415.0)/(475.0-415.0);\n            g=+(0.80*t*t);\n        \}else if ((l>=475.0)&&(l<590.0))\{\n            t=(l-475.0)/(590.0-475.0);\n            g=0.8 +(0.76*t)-(0.80*t*t);\n        \}else if ((l>=585.0)&&(l<639.0))\{\n            t=(l-585.0)/(639.0-585.0);\n            g=0.84-(0.84*t);\n        \}\n        \n         if ((l>=400.0)&&(l<475.0))\{\n            t=(l-400.0)/(475.0-400.0);\n            b=    +(2.20*t)-(1.50*t*t);\n        \}else if ((l>=475.0)&&(l<560.0))\{\n            t=(l-475.0)/(560.0-475.0);\n            b=0.7 -(t)+(0.30*t*t);\n        \}\n        return float4 (r,g,b,1.0f);\n    \}\n\n    kernel WavelengthSpectra : ImageComputationKernel<ePixelWise>\n\{\n    Image<eWrite> dst;\n\n    param:\n        bool mode;\n        float l;\n        int increments;\n\n\n    void define()\{\n        defineParam(l, \"wavlength\", 400.0f);\n    \}\n\n    void process(int2 pos) \{\n        float4 totalSpectra = float4(0.0f,0.0f,0.0f,0.0f);\n\n        for (int i = 0; i < increments; i++) \{\n            float4 Spec = spectral_color(400.f + i);\n            totalSpectra += pos.x == increments-i?Spec:0;\n        \}\n\n        float4 s = spectral_color(l);\n        float4 S = float4(totalSpectra.x,totalSpectra.y,totalSpectra.z,1.0f);\n        dst() = mode == true ? s : S;\n    \}\n\};"
+  rebuild ""
+  WavelengthSpectra_wavlength 2200
+  WavelengthSpectra_increments 400
+  format "512 512 0 0 512 512 1 square_512"
+  rebuild_finalise ""
+  name BlinkScript4
+  xpos 348
+  ypos -107
+ }
+ Colorspace {
+  colorspace_in sRGB
+  name Colorspace1
+  xpos 348
+  ypos -75
+  disable {{!parent.lin}}
+ }
+ Output {
+  name Output1
+  selected true
+  xpos 348
+  ypos -51
+ }
+end_group
+Read {
+ inputs 0
+ file "\[value BFF.ROPath]/BG/BG.####.exr"
+ format "1440 810 0 0 1440 810 1 HD_3/4"
+ last 188
+ origlast 188
+ origset true
+ version 1
+ name BG
+ xpos -562
+ ypos -283
+}
+Group {
+ name Optics
+ help "Optics v1.1.1\nGramisa\n04:05:2019"
+ selected true
+ xpos 240
+ ypos -119
+ addUserKnob {20 User}
+ addUserKnob {26 Vignetting l "" +STARTLINE T <b>VIGNETTING}
+ addUserKnob {6 Active_1 l Active +STARTLINE}
+ Active_1 true
+ addUserKnob {6 Magnification_1 l Magnification -STARTLINE}
+ addUserKnob {26 space_12 l "" -STARTLINE T "    ||    "}
+ addUserKnob {6 ProtectVigCenter l "Protect Center" -STARTLINE}
+ addUserKnob {26 space_4 l "" +STARTLINE T " "}
+ addUserKnob {18 VignMult l Mix}
+ addUserKnob {6 VignMult_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 VignMult_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 VignMult_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 Scale R 0 10}
+ Scale 2.5
+ addUserKnob {7 Gamma -STARTLINE R 0 3}
+ Gamma 2
+ addUserKnob {26 space_3 l "" +STARTLINE T " "}
+ addUserKnob {7 Magnification l Mag +HIDDEN R 0 40}
+ Magnification 2
+ addUserKnob {6 fast -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {26 Abberation l "" +STARTLINE T "<b>CHROMATIC ABERRATIONS"}
+ addUserKnob {6 Active_2 l Active +STARTLINE}
+ Active_2 true
+ addUserKnob {26 space_13 l "" -STARTLINE T "    ||    "}
+ addUserKnob {6 AbbprotectCenter l "Protect Center" -STARTLINE}
+ addUserKnob {26 space_5 l "" +STARTLINE T " "}
+ addUserKnob {7 ABB l Mix R 0 10}
+ ABB 10
+ addUserKnob {6 spectrum -STARTLINE}
+ addUserKnob {26 space_2 l "" +STARTLINE T " "}
+ addUserKnob {26 ""}
+ addUserKnob {26 Distorions l "" +STARTLINE T "<b>LENS DISTORTION"}
+ addUserKnob {6 Active_3 l Active +STARTLINE}
+ addUserKnob {26 space_9 l "" -STARTLINE T "    "}
+ addUserKnob {3 AddBbox l "Edge Extend" -STARTLINE +HIDDEN}
+ AddBbox 20
+ addUserKnob {26 space_6 l "" +STARTLINE T " "}
+ addUserKnob {7 X R -0.1 0.1}
+ X 0.05
+ addUserKnob {7 Y -STARTLINE R -0.1 0.1}
+ Y 0.05
+ addUserKnob {26 pace l "" +STARTLINE T " "}
+ addUserKnob {26 ""}
+ addUserKnob {26 Bloom l "" +STARTLINE T <b>BLOOMING}
+ addUserKnob {6 Active +STARTLINE}
+ Active true
+ addUserKnob {6 CheckThreshold l Threshold -STARTLINE}
+ addUserKnob {26 space_8 l "" -STARTLINE T "    ||    "}
+ addUserKnob {6 Kernel -STARTLINE}
+ addUserKnob {6 FullSpectrum l "Full Spectrum" -STARTLINE}
+ addUserKnob {26 space l "" +STARTLINE T " "}
+ addUserKnob {7 BloomMIX l Mix}
+ BloomMIX 1
+ addUserKnob {6 BloomSolo l solo -STARTLINE}
+ addUserKnob {7 BloomSize_1 l Size R 1 10}
+ BloomSize_1 1
+ addUserKnob {26 space_11 l "" +STARTLINE T " "}
+ addUserKnob {7 BloomGain l Gain R 0.5 5}
+ BloomGain 1
+ addUserKnob {7 BloomSize l Gamma -STARTLINE}
+ BloomSize 0.5
+ addUserKnob {7 BloomSpectrum l Spectrum +HIDDEN R -1 1}
+ addUserKnob {26 space_7 l "" +STARTLINE T " "}
+ addUserKnob {26 space_1 l "" +STARTLINE T ""}
+ addUserKnob {7 BloomAspect2 l Ratio -STARTLINE R 0.5 2}
+ BloomAspect2 1
+ addUserKnob {7 Resolution l Res -STARTLINE R 0.25 1}
+ Resolution 1
+ addUserKnob {26 space_10 l "" +STARTLINE T " "}
+ addUserKnob {26 Threshold l "" +STARTLINE +HIDDEN T Threshold}
+ addUserKnob {7 ThresholdMIN l Min +HIDDEN}
+ ThresholdMIN 0.25
+ addUserKnob {7 ThresholdMAX l Max -STARTLINE +HIDDEN}
+ ThresholdMAX 0.85
+ addUserKnob {7 Phy l INVISIBLE +INVISIBLE}
+ Phy {{"\[python -execlocal nn\\ =\\ nuke.thisNode()\\noff\\ =\\ nn.knob('FullSpectrum').value()\\nret\\ =\\ off\\nnn.knob('BloomSpectrum').setVisible(off)\\n\\n\\n\\noff2\\ =\\ nn.knob('Magnification_1').value()\\nret\\ =\\ off2\\nnn.knob('Magnification').setVisible(bool(off2))\\nnn.knob('fast').setVisible(bool(off2))\\n\\n\\n\\n\\noff3\\ =\\ nn.knob('CheckThreshold').value()\\nret\\ =\\ off3\\nnn.knob('Threshold').setVisible(bool(off3))\\nnn.knob('ThresholdMIN').setVisible(bool(off3))\\nnn.knob('ThresholdMAX').setVisible(bool(off3))\\n\\n\\noff4\\ =\\ nn.knob('Active_3').value()\\nret\\ =\\ off4\\nnn.knob('AddBbox').setVisible(off4)\\n\\n\\n#offBL\\ =\\ nn.knob('Active').value()\\n#ret\\ =\\ offBL\\n#nn.knob('CheckThreshold').setVisible(offBL)\\n#nn.knob('FullSpectrum').setVisible(offBL)]"}}
+}
+ Constant {
+  inputs 0
+  channels rgb
+  format "256 256 0 0 256 256 1 square_256"
+  name FORMAT
+  xpos -1082
+  ypos -596
+  postage_stamp false
+ }
+ Expression {
+  temp_name0 FORM
+  temp_expr0 pow(POW,sqrt((pow2(x-OFFSET_X)/(OFFSET_X*Aspect))+(pow2(y-OFFSET_Y)/(OFFSET_Y/Aspect))))
+  temp_name1 FORMr
+  temp_expr1 pow((POW+(ABB/10)),sqrt((pow2(x-OFFSET_X)/(OFFSET_X*Aspect))+(pow2(y-OFFSET_Y)/(OFFSET_Y/Aspect))))
+  temp_name2 FORMb
+  temp_expr2 pow((POW-(ABB/10)),sqrt((pow2(x-OFFSET_X)/(OFFSET_X*Aspect))+(pow2(y-OFFSET_Y)/(OFFSET_Y/Aspect))))
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 FORMr
+  expr1 FORM
+  expr2 FORMb
+  channel3 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr3 max(FORMr,FORMb,FORM)
+  name SEXYGLOWv2
+  tile_color 0xff000000
+  xpos -1082
+  ypos -536
+  addUserKnob {20 User}
+  addUserKnob {7 POW}
+  POW {{parent.BloomSize}}
+  addUserKnob {26 ""}
+  addUserKnob {7 Aspect R 0.5 2}
+  Aspect {{parent.BloomAspect2}}
+  addUserKnob {26 ""}
+  addUserKnob {7 ABB R -1 1}
+  ABB {{parent.BloomSpectrum}}
+  addUserKnob {26 ""}
+  addUserKnob {7 OFFSET_X R 0 512}
+  OFFSET_X {{input.width/2}}
+  addUserKnob {7 OFFSET_Y R 0 512}
+  OFFSET_Y {{input.height/2}}
+  addUserKnob {26 ""}
+  addUserKnob {6 CLAMP +STARTLINE}
+  CLAMP true
+ }
+set Ne24ef800 [stack 0]
+ Transform {
+  scale {{parent.BloomSize_1}}
+  center {128 {center.x}}
+  black_outside false
+  name BLOOMSIZE
+  xpos -1082
+  ypos -477
+ }
+ Dot {
+  name Dot9
+  xpos -1048
+  ypos -145
+ }
+set Ne24eec00 [stack 0]
+ Input {
+  inputs 0
+  name Input
+  xpos 543
+  ypos -2052
+ }
+ CheckerBoard2 {
+  inputs 0
+  format {{{root.format}}}
+  boxsize 600
+  linecolor 0
+  centerlinecolor 0
+  centerlinewidth 0
+  name CheckerBoard1
+  xpos 388
+  ypos -1049
+  postage_stamp false
+ }
+ Switch {
+  inputs 2
+  which {{"\[exists parent.input0]"}}
+  name Switch3
+  xpos 543
+  ypos -1049
+ }
+ AdjBBox {
+  numpixels {{parent.AddBbox}}
+  name AdjBBox1
+  xpos 543
+  ypos -707
+  disable {{!parent.Active_3}}
+ }
+ LensDistortion2 {  lensType Anamorphic
+  distortionModelPreset "3DEqualizer/3DE Classic LD Model"
+  distortionOrder {2 0}
+  distortionDomain Rectilinear
+  normalisationType Diagonal
+  distortionModelDisplayX "xu = xd * (1 + k0 * rd^2 + k1 * rd^4 + k2 * yd^2)"
+  distortionModelDisplayY "yu = yd * (1 + k0 * rd^2 + k1 * rd^4 + k3 * xd^2)"
+  distortionNumerator0 {{-0.15*parent.X}}
+  distortionNumerator1 {{-0.04*parent.Y}}
+  distortionNumeratorX00 {{-0.05*parent.X}}
+  distortionNumeratorY00 {{-0.02*parent.Y}}
+  distortionDenominator0 0.1
+  distortionDenominator1 0.04
+  keyFrame 1
+  keyingInitialised true
+  output Redistort
+  resampleType Mitchell
+  "Adjust Bounding Box" 1
+  outputBBox {0 0 3840 2076}
+  featuresKnob "
+version 1
+entries 0
+entries 0
+"
+  name LensDistortion2
+  xpos 543
+  ypos -658
+  disable {{!parent.Active_3}}
+  addUserKnob {20 User}
+  addUserKnob {7 phy2}
+  phy2 {{"\[python nuke.thisNode().knob('adjustBBox').setValue(nuke.thisNode().knob('phy').value())]"}}
+  addUserKnob {7 phy}
+  phy {{"\[python -execlocal with\\ nuke.root():\\n\\ \\ \\ \\ a\\ =nuke.toNode('Dist').knob('AddBbox').getValue()\\n\\ \\ \\ \\ ret\\ =\\ a]"}}
+ 
+  xpos 543
+  ypos -658
+  selected false
+  disable {{!parent.Active_3}}
+ }
+ Dot {
+  name Dot3
+  xpos 577
+  ypos -265
+ }
+set Nde049c00 [stack 0]
+ Reformat {
+  type scale
+  scale {{"parent.Resolution > 1 ? 1 : parent.Resolution"}}
+  filter Impulse
+  pbb true
+  name Reformat3
+  xpos -529
+  ypos -269
+  disable {{!parent.Active}}
+ }
+ Keyer {
+  operation "luminance key"
+  range {{parent.ThresholdMIN} {parent.ThresholdMAX} 1 1}
+  name LUMAkey
+  xpos -688
+  ypos -275
+ }
+set Nde049000 [stack 0]
+ Premult {
+  name Premult1
+  xpos -688
+  ypos -212
+ }
+ Convolve2 {
+  inputs 2
+  channels rgba
+  use_input_channels {{parent.FullSpectrum}}
+  name Convolve1
+  xpos -688
+  ypos -149
+  disable {{!parent.Active x1 1}}
+ }
+ Reformat {
+  type scale
+  scale {{"(1/parent.Resolution) < 1 ? 1 : (1/parent.Resolution)"}}
+  filter Impulse
+  pbb true
+  name Reformat4
+  xpos -527
+  ypos -149
+  disable {{!parent.Active}}
+ }
+ Grade {
+  channels rgba
+  white {{parent.BloomGain}}
+  black_clamp false
+  name BloomGrade
+  xpos -384
+  ypos -149
+ }
+ Crop {
+  box {0 0 {parent.width} {parent.height}}
+  name Crop1
+  xpos -201
+  ypos -149
+ }
+set N4eac5800 [stack 0]
+ Dot {
+  name Dot8
+  xpos -167
+  ypos 1871
+ }
+push $Ne24eec00
+ Dot {
+  name Dot4
+  xpos -1048
+  ypos 1622
+ }
+push $Nde049000
+ Dot {
+  name Dot6
+  xpos -824
+  ypos -265
+ }
+ Reformat {
+  type scale
+  scale {{"(1/parent.Resolution) < 1 ? 1 : (1/parent.Resolution)"}}
+  filter Impulse
+  name Reformat5
+  xpos -858
+  ypos -211
+ }
+ Dot {
+  name Dot7
+  xpos -824
+  ypos 1351
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle2
+  xpos 330
+  ypos 1347
+ }
+ Radial {
+  inputs 0
+  area {0 {area.x} {parent.width} {parent.height}}
+  name Radial1
+  xpos 984
+  ypos 494
+ }
+ Colorspace {
+  colorspace_in Protune
+  name Colorspace1
+  xpos 984
+  ypos 528
+ }
+ Dot {
+  name Dot11
+  xpos 893
+  ypos 532
+ }
+set Nb457d000 [stack 0]
+ Reformat {
+  inputs 0
+  format {{{parent.input.format}}}
+  name Reformat1
+  xpos 1220
+  ypos -41
+  hide_input true
+ }
+ Expression {
+  temp_name0 X
+  temp_expr0 (x-CenterPic.x)/width
+  temp_name1 Y
+  temp_expr1 (y-CenterPic.y)/height
+  expr0 X
+  expr1 Y
+  expr2 1-pow(GammaRadial,hypot(((x-CenterPic.x)/width),((y-CenterPic.y)/height)))
+  channel3 none
+  name DistortionMap
+  xpos 1220
+  ypos 9
+  addUserKnob {20 User}
+  addUserKnob {12 CenterPic}
+  CenterPic {{parent.width/2} {parent.height/2}}
+  addUserKnob {7 GammaRadial}
+  GammaRadial 0.5
+ }
+ Expression {
+  expr0 r*b
+  expr1 g*b
+  expr2 b
+  channel3 none
+  name DistortionConstruction
+  xpos 1220
+  ypos 57
+ }
+ Dot {
+  name Dot10
+  xpos 1254
+  ypos 205
+ }
+set N7ec17400 [stack 0]
+ Expression {
+  channel0 rgba
+  expr0 pow((b*(p)),k)
+  channel1 none
+  channel2 none
+  channel3 none
+  name powVign
+  xpos 1220
+  ypos 871
+  addUserKnob {20 User}
+  addUserKnob {7 p R 0 10}
+  p {{parent.Scale}}
+  addUserKnob {7 k R 0 3}
+  k {{parent.Gamma}}
+ }
+ Multiply {
+  inputs 1+1
+  value 0
+  name ProtectCenterVign
+  xpos 859
+  ypos 865
+  disable {{!parent.ProtectVigCenter}}
+ }
+push $Nb457d000
+push $N7ec17400
+ Multiply {
+  inputs 1+1
+  value 0
+  name ProtectCenterABB
+  xpos 859
+  ypos 195
+  disable {{!parent.AbbprotectCenter}}
+ }
+set N7ec16400 [stack 0]
+push $N7ec16400
+push $N4eac5800
+push $Nde049c00
+ Merge2 {
+  inputs 2
+  operation plus
+  mix {{parent.BloomMIX}}
+  name Merge1
+  xpos 543
+  ypos -149
+  disable {{!parent.Active}}
+ }
+ ShuffleCopy {
+  inputs 2
+  in rgb
+  red red
+  green green
+  blue red
+  alpha green
+  out motion
+  name ShuffleCopy1
+  xpos 543
+  ypos 201
+ }
+set N306d7c00 [stack 0]
+ ShuffleCopy {
+  inputs 2
+  in rgb
+  red blue
+  green black
+  blue blue
+  alpha black
+  out mask
+  name ShuffleCopy2
+  xpos 543
+  ypos 294
+ }
+set N306d7800 [stack 0]
+ Dot {
+  name Dot5
+  xpos 352
+  ypos 298
+ }
+ Shuffle {
+  in mask
+  name Shuffle1
+  xpos 318
+  ypos 808
+ }
+push $N306d7c00
+ Dot {
+  name Dot1
+  xpos 242
+  ypos 205
+ }
+ Dot {
+  name Dot2
+  xpos 242
+  ypos 611
+ }
+push $N306d7800
+ IDistort {
+  channels {-rgba.red -rgba.green rgba.blue none}
+  uv_scale 0
+  blur mask.a
+  blur_scale {{parent.spectrum==0?(parent.ABB/3)*2:(parent.ABB/3)*3}}
+  name IDistort3
+  tile_color 0xff00
+  xpos 653
+  ypos 374
+  disable {{!parent.Active_2}}
+ }
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 b
+  channel3 none
+  name Expression3
+  tile_color 0xff00
+  xpos 653
+  ypos 406
+ }
+push 0
+push $N306d7800
+ IDistort {
+  channels {-rgba.red rgba.green -rgba.blue none}
+  uv_scale 0
+  blur mask.a
+  blur_scale {{(parent.ABB/3)}}
+  name IDistort2
+  tile_color 0xff0000
+  xpos 543
+  ypos 374
+  disable {{!parent.Active_2}}
+ }
+ Expression {
+  expr0 0
+  expr1 g
+  expr2 0
+  channel3 none
+  name Expression2
+  tile_color 0xff0000
+  xpos 543
+  ypos 406
+ }
+push $N306d7800
+ IDistort {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  uv_scale 0
+  blur mask.a
+  blur_scale {{parent.spectrum==0?(parent.ABB/3)*3:(parent.ABB/3)*2}}
+  name IDistort1
+  tile_color 0xff000000
+  xpos 433
+  ypos 374
+  disable {{!parent.Active_2}}
+ }
+ Expression {
+  expr0 r
+  expr1 0
+  expr2 0
+  channel3 none
+  name Expression1
+  tile_color 0xff000000
+  xpos 433
+  ypos 406
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge4
+  xpos 543
+  ypos 486
+ }
+ Switch {
+  inputs 2
+  which {{!parent.Active_2}}
+  name Switch1
+  label "\[value which]"
+  xpos 543
+  ypos 601
+ }
+ Group {
+  inputs 2
+  name iBlur
+  help "iBlur v1.0\n\nThis gizmo should work like the iBlur from Shake. I'm still missing a ramped blur in nuke, especially for technical stuff, where a zBlur is just not the right thing (and also too slow)."
+  tile_color 0xcc804eff
+  xpos 543
+  ypos 808
+  disable {{!parent.Magnification_1}}
+  addUserKnob {20 Controls}
+  addUserKnob {7 phy}
+  phy {{parent.fast}}
+  addUserKnob {7 pht2}
+  pht2 {{"\[python -execlocal nn\\ =\\ nuke.thisNode()\\nfast\\ =\\ nn.knob('phy').getValue()\\n\\nret\\ =\\ fast\\n\\nif\\ fast\\ ==\\ 0:\\n\\ \\ \\ \\ nn.knob('quality').setValue('accurate')\\nelse:\\n\\ \\ \\ \\ nn.knob('quality').setValue('fast')\\n]"}}
+  addUserKnob {41 channels t "Select the channels you want to iBlur." T Blur11.channels}
+  addUserKnob {26 divider2 l " " T " "}
+  addUserKnob {7 blur l "blur size" t "Higher setting means more blur. : )\n\nBlur size values are equal with Nuke's default 'Blur' or 'Defocus'." R 0 100}
+  blur {{parent.Magnification}}
+  addUserKnob {4 blur_type l "blur type" t "The gizmo is indeed using Nuke's 'Blur' or 'Defocus'. You know the difference!" M {blur "defocus " "" "" ""}}
+  blur_type "defocus "
+  addUserKnob {4 quality t "This gizmo blurs the image in blended in slices. \nMore slices mean more accurate blur-ramp, and also more rendertime.  \n\nfast = 7 slices\naccurate = 13 slices" M {fast accurate "" ""}}
+  quality accurate
+  addUserKnob {26 spacer l "  " T "  "}
+  addUserKnob {26 divider l "" +STARTLINE}
+  addUserKnob {26 credit l "" +STARTLINE T "iBlur v1.0 | moritz eiche | 2011"}
+ }
+  BackdropNode {
+   inputs 0
+   name BackdropNode1
+   tile_color 0x2e2e2eff
+   note_font_size 42
+   xpos 32
+   ypos -426
+   bdwidth 2731
+   bdheight 633
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode2
+   tile_color 0x262626ff
+   note_font_size 42
+   xpos 114
+   ypos -367
+   bdwidth 2572
+   bdheight 269
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode3
+   tile_color 0x262626ff
+   note_font_size 42
+   xpos 115
+   ypos -83
+   bdwidth 2573
+   bdheight 236
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode4
+   tile_color 0x2e2e2eff
+   note_font_size 42
+   xpos 33
+   ypos 320
+   bdwidth 2733
+   bdheight 625
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode5
+   tile_color 0x262626ff
+   note_font_size 42
+   xpos 108
+   ypos 373
+   bdwidth 2572
+   bdheight 269
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode6
+   tile_color 0x262626ff
+   note_font_size 42
+   xpos 108
+   ypos 653
+   bdwidth 2575
+   bdheight 237
+  }
+  Input {
+   inputs 0
+   name mask
+   label a
+   xpos -113
+   ypos -764
+   number 1
+  }
+  Dot {
+   name Dot6
+   xpos -79
+   ypos -312
+  }
+set Nec1f4000 [stack 0]
+  Dot {
+   name Dot87
+   xpos -79
+   ypos -51
+  }
+set Nfda93c00 [stack 0]
+  Dot {
+   name Dot57
+   xpos -79
+   ypos 430
+  }
+set Nfda93800 [stack 0]
+  Dot {
+   name Dot2
+   xpos 246
+   ypos 430
+  }
+set Nfda93400 [stack 0]
+  Dot {
+   name Dot4
+   xpos 445
+   ypos 430
+  }
+set Nfda93000 [stack 0]
+  Dot {
+   name Dot32
+   xpos 651
+   ypos 430
+  }
+set Nfda92c00 [stack 0]
+  Dot {
+   name Dot33
+   xpos 850
+   ypos 430
+  }
+set Nfda92800 [stack 0]
+  Dot {
+   name Dot34
+   xpos 1045
+   ypos 430
+  }
+set Nfda92400 [stack 0]
+  Dot {
+   name Dot35
+   xpos 1233
+   ypos 429
+  }
+set Nfda92000 [stack 0]
+  Dot {
+   name Dot36
+   xpos 1438
+   ypos 429
+  }
+set Nfdaadc00 [stack 0]
+  Dot {
+   name Dot37
+   xpos 1634
+   ypos 429
+  }
+set Nfdaad800 [stack 0]
+  Dot {
+   name Dot38
+   xpos 1834
+   ypos 429
+  }
+set Nfdaad400 [stack 0]
+  Dot {
+   name Dot39
+   xpos 2036
+   ypos 429
+  }
+set Nfdaad000 [stack 0]
+  Dot {
+   name Dot40
+   xpos 2234
+   ypos 429
+  }
+set Nfdaacc00 [stack 0]
+  Dot {
+   name Dot41
+   xpos 2432
+   ypos 428
+  }
+set Nfdaac800 [stack 0]
+  Dot {
+   name Dot42
+   xpos 2624
+   ypos 428
+  }
+  Grade {
+   channels rgba
+   blackpoint 0.9
+   white_clamp true
+   name Grade12
+   xpos 2590
+   ypos 521
+  }
+  Input {
+   inputs 0
+   name image
+   label rgba
+   xpos -282
+   ypos -767
+  }
+  Dot {
+   name Dot1
+   xpos -248
+   ypos -272
+  }
+set Nfdad3800 [stack 0]
+  Dot {
+   name Dot25
+   xpos -248
+   ypos -155
+  }
+set Nfdad3400 [stack 0]
+  Dot {
+   name Dot86
+   xpos -248
+   ypos -11
+  }
+set Nfdad3000 [stack 0]
+  Dot {
+   name Dot88
+   xpos -248
+   ypos 106
+  }
+set Nfdad2c00 [stack 0]
+  Dot {
+   name Dot58
+   xpos -248
+   ypos 470
+  }
+set Nfdad2800 [stack 0]
+  Dot {
+   name Dot43
+   xpos 152
+   ypos 470
+  }
+set Nfdad2400 [stack 0]
+  Dot {
+   name Dot44
+   xpos 354
+   ypos 470
+  }
+set Nfdad2000 [stack 0]
+  Dot {
+   name Dot45
+   xpos 557
+   ypos 470
+  }
+set Nfdaebc00 [stack 0]
+  Dot {
+   name Dot46
+   xpos 756
+   ypos 470
+  }
+set Nfdaeb800 [stack 0]
+  Dot {
+   name Dot47
+   xpos 954
+   ypos 470
+  }
+set Nfdaeb400 [stack 0]
+  Dot {
+   name Dot48
+   xpos 1142
+   ypos 469
+  }
+set Nfdaeb000 [stack 0]
+  Dot {
+   name Dot49
+   xpos 1347
+   ypos 469
+  }
+set Nfdaeac00 [stack 0]
+  Dot {
+   name Dot50
+   xpos 1543
+   ypos 469
+  }
+set Nfdaea800 [stack 0]
+  Dot {
+   name Dot51
+   xpos 1743
+   ypos 469
+  }
+set Nfdaea400 [stack 0]
+  Dot {
+   name Dot52
+   xpos 1945
+   ypos 469
+  }
+set Nfdaea000 [stack 0]
+  Dot {
+   name Dot53
+   xpos 2143
+   ypos 469
+  }
+set Nfdb05c00 [stack 0]
+  Dot {
+   name Dot54
+   xpos 2341
+   ypos 468
+  }
+set Nfdb05800 [stack 0]
+  Dot {
+   name Dot55
+   xpos 2533
+   ypos 468
+  }
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur i}}
+   name Defocus13
+   xpos 2499
+   ypos 521
+  }
+push $Nfdaac800
+  Grade {
+   channels rgba
+   blackpoint 0.8
+   whitepoint 0.9
+   white_clamp true
+   name Grade15
+   xpos 2398
+   ypos 521
+  }
+push $Nfdb05800
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*9 i}}
+   name Defocus12
+   xpos 2307
+   ypos 521
+  }
+push $Nfdaacc00
+  Grade {
+   channels rgba
+   blackpoint 0.7
+   whitepoint 0.8
+   white_clamp true
+   name Grade16
+   xpos 2200
+   ypos 521
+  }
+push $Nfdb05c00
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*8 i}}
+   name Defocus11
+   xpos 2109
+   ypos 521
+  }
+push $Nfdaad000
+  Grade {
+   channels rgba
+   blackpoint 0.6
+   whitepoint 0.7
+   white_clamp true
+   name Grade17
+   xpos 2002
+   ypos 521
+  }
+push $Nfdaea000
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*7 i}}
+   name Defocus10
+   xpos 1911
+   ypos 521
+  }
+push $Nfdaad400
+  Grade {
+   channels rgba
+   blackpoint 0.5
+   whitepoint 0.6
+   white_clamp true
+   name Grade18
+   xpos 1800
+   ypos 521
+  }
+push $Nfdaea400
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*6 i}}
+   name Defocus9
+   xpos 1709
+   ypos 521
+  }
+push $Nfdaad800
+  Grade {
+   channels rgba
+   blackpoint 0.4
+   whitepoint 0.5
+   white_clamp true
+   name Grade19
+   xpos 1600
+   ypos 521
+  }
+push $Nfdaea800
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*5 i}}
+   name Defocus8
+   xpos 1509
+   ypos 521
+  }
+push $Nfdaadc00
+  Grade {
+   channels rgba
+   blackpoint 0.3
+   whitepoint 0.4
+   white_clamp true
+   name Grade20
+   xpos 1404
+   ypos 521
+  }
+push $Nfdaeac00
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*4 i}}
+   name Defocus7
+   xpos 1313
+   ypos 521
+  }
+push $Nfda92000
+  Grade {
+   channels rgba
+   blackpoint 0.2
+   whitepoint 0.3
+   white_clamp true
+   name Grade21
+   xpos 1199
+   ypos 521
+  }
+push $Nfdaeb000
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*3 i}}
+   name Defocus6
+   xpos 1108
+   ypos 522
+  }
+push $Nfda92400
+  Grade {
+   channels rgba
+   blackpoint 0.1
+   whitepoint 0.2
+   white_clamp true
+   name Grade22
+   xpos 1011
+   ypos 521
+  }
+push $Nfdaeb400
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*2 i}}
+   name Defocus5
+   xpos 920
+   ypos 521
+  }
+push $Nfda92800
+  Grade {
+   channels rgba
+   blackpoint 0.075
+   whitepoint 0.1
+   white_clamp true
+   name Grade23
+   xpos 816
+   ypos 521
+  }
+push $Nfdaeb800
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10 i}}
+   name Defocus4
+   xpos 722
+   ypos 521
+  }
+push $Nfda92c00
+  Grade {
+   channels rgba
+   blackpoint 0.05
+   whitepoint 0.075
+   white_clamp true
+   name Grade24
+   xpos 617
+   ypos 521
+  }
+push $Nfdaebc00
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10/4*3 i}}
+   name Defocus3
+   xpos 523
+   ypos 521
+  }
+push $Nfda93000
+  Grade {
+   channels rgba
+   blackpoint 0.025
+   whitepoint 0.05
+   white_clamp true
+   name Grade25
+   xpos 411
+   ypos 521
+  }
+push $Nfdad2000
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10/4*2 i}}
+   name Defocus2
+   xpos 320
+   ypos 521
+  }
+push $Nfda93400
+  Grade {
+   channels rgba
+   whitepoint 0.025
+   white_clamp true
+   name Grade26
+   xpos 212
+   ypos 521
+  }
+push $Nfdad2400
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10/4}}
+   name Defocus1
+   xpos 118
+   ypos 521
+  }
+push $Nfdad2800
+  Dot {
+   name Dot56
+   xpos -248
+   ypos 587
+  }
+set Nfdbdac00 [stack 0]
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix1
+   xpos 118
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix15
+   xpos 320
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix16
+   xpos 523
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix17
+   xpos 722
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix18
+   xpos 920
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix19
+   xpos 1108
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix20
+   xpos 1313
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix21
+   xpos 1509
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix22
+   xpos 1709
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix23
+   xpos 1911
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix24
+   xpos 2109
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix25
+   xpos 2307
+   ypos 579
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix26
+   xpos 2499
+   ypos 579
+  }
+  Dot {
+   name Dot67
+   xpos 2886
+   ypos 587
+  }
+push $Nfda93800
+  Dot {
+   name Dot105
+   xpos -79
+   ypos 688
+  }
+  Dot {
+   name Dot62
+   xpos 243
+   ypos 688
+  }
+set Nfdc46c00 [stack 0]
+  Dot {
+   name Dot65
+   xpos 442
+   ypos 688
+  }
+set Nfdc46800 [stack 0]
+  Dot {
+   name Dot69
+   xpos 847
+   ypos 688
+  }
+set Nfdc46400 [stack 0]
+  Dot {
+   name Dot71
+   xpos 1244
+   ypos 688
+  }
+set Nfdc46000 [stack 0]
+  Dot {
+   name Dot82
+   xpos 1634
+   ypos 687
+  }
+set Nfdc69c00 [stack 0]
+  Dot {
+   name Dot89
+   xpos 2035
+   ypos 687
+  }
+set Nfdc69800 [stack 0]
+  Dot {
+   name Dot91
+   xpos 2621
+   ypos 686
+  }
+  Grade {
+   channels rgba
+   blackpoint 0.7
+   white_clamp true
+   name Grade28
+   xpos 2587
+   ypos 779
+  }
+push $Nfdbdac00
+  Dot {
+   name Dot106
+   xpos -248
+   ypos 728
+  }
+set Nfdc68c00 [stack 0]
+  Dot {
+   name Dot92
+   xpos 149
+   ypos 728
+  }
+set Nfdc68800 [stack 0]
+  Dot {
+   name Dot93
+   xpos 351
+   ypos 728
+  }
+set Nfdc68400 [stack 0]
+  Dot {
+   name Dot95
+   xpos 753
+   ypos 728
+  }
+set Nfdc68000 [stack 0]
+  Dot {
+   name Dot96
+   xpos 1153
+   ypos 728
+  }
+set Nfdc8dc00 [stack 0]
+  Dot {
+   name Dot100
+   xpos 1543
+   ypos 727
+  }
+set Nfdc8d800 [stack 0]
+  Dot {
+   name Dot102
+   xpos 1944
+   ypos 727
+  }
+set Nfdc8d400 [stack 0]
+  Dot {
+   name Dot104
+   xpos 2530
+   ypos 726
+  }
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur i}}
+   name Defocus14
+   xpos 2496
+   ypos 780
+  }
+push $Nfdc69800
+  Grade {
+   channels rgba
+   blackpoint 0.5
+   whitepoint 0.7
+   white_clamp true
+   name Grade32
+   xpos 2001
+   ypos 780
+  }
+push $Nfdc8d400
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*7 i}}
+   name Defocus16
+   xpos 1910
+   ypos 779
+  }
+push $Nfdc69c00
+  Grade {
+   channels rgba
+   blackpoint 0.3
+   whitepoint 0.5
+   white_clamp true
+   name Grade37
+   xpos 1600
+   ypos 779
+  }
+push $Nfdc8d800
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*5 i}}
+   name Defocus18
+   xpos 1509
+   ypos 780
+  }
+push $Nfdc46000
+  Grade {
+   channels rgba
+   blackpoint 0.1
+   whitepoint 0.3
+   white_clamp true
+   name Grade43
+   xpos 1210
+   ypos 779
+  }
+push $Nfdc8dc00
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10*3 i}}
+   name Defocus22
+   xpos 1119
+   ypos 779
+  }
+push $Nfdc46400
+  Grade {
+   channels rgba
+   blackpoint 0.05
+   whitepoint 0.1
+   white_clamp true
+   name Grade44
+   xpos 813
+   ypos 779
+  }
+push $Nfdc68000
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10 i}}
+   name Defocus23
+   xpos 719
+   ypos 779
+  }
+push $Nfdc46800
+  Grade {
+   channels rgba
+   blackpoint 0.025
+   whitepoint 0.05
+   white_clamp true
+   name Grade46
+   xpos 408
+   ypos 779
+  }
+push $Nfdc68400
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10/4*2 i}}
+   name Defocus25
+   xpos 317
+   ypos 778
+  }
+push $Nfdc46c00
+  Grade {
+   channels rgba
+   whitepoint 0.025
+   white_clamp true
+   name Grade47
+   xpos 209
+   ypos 778
+  }
+push $Nfdc68800
+  Defocus {
+   channels {{{parent.Blur11.channels}}}
+   defocus {{blur/10/4 i}}
+   name Defocus26
+   xpos 115
+   ypos 779
+  }
+push $Nfdc68c00
+  Dot {
+   name Dot107
+   xpos -248
+   ypos 845
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix29
+   xpos 115
+   ypos 837
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix32
+   xpos 317
+   ypos 837
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix36
+   xpos 719
+   ypos 837
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix38
+   xpos 1119
+   ypos 837
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix43
+   xpos 1509
+   ypos 837
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix45
+   xpos 1910
+   ypos 837
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix47
+   xpos 2496
+   ypos 837
+  }
+  Switch {
+   inputs 2
+   which {{quality i}}
+   name Switch3
+   xpos 2852
+   ypos 842
+  }
+push $Nec1f4000
+  Dot {
+   name Dot23
+   xpos 255
+   ypos -312
+  }
+set Nfdd41800 [stack 0]
+  Dot {
+   name Dot26
+   xpos 454
+   ypos -312
+  }
+set Nfdd41400 [stack 0]
+  Dot {
+   name Dot28
+   xpos 660
+   ypos -312
+  }
+set Nfdd41000 [stack 0]
+  Dot {
+   name Dot30
+   xpos 859
+   ypos -312
+  }
+set Nfdd40c00 [stack 0]
+  Dot {
+   name Dot7
+   xpos 1054
+   ypos -312
+  }
+set Nfdd40800 [stack 0]
+  Dot {
+   name Dot5
+   xpos 1242
+   ypos -313
+  }
+set Nfdd40400 [stack 0]
+  Dot {
+   name Dot9
+   xpos 1447
+   ypos -313
+  }
+set Nfdd40000 [stack 0]
+  Dot {
+   name Dot11
+   xpos 1643
+   ypos -313
+  }
+set Nfdd67c00 [stack 0]
+  Dot {
+   name Dot13
+   xpos 1843
+   ypos -313
+  }
+set Nfdd67800 [stack 0]
+  Dot {
+   name Dot15
+   xpos 2045
+   ypos -313
+  }
+set Nfdd67400 [stack 0]
+  Dot {
+   name Dot17
+   xpos 2243
+   ypos -313
+  }
+set Nfdd67000 [stack 0]
+  Dot {
+   name Dot19
+   xpos 2441
+   ypos -314
+  }
+set Nfdd66c00 [stack 0]
+  Dot {
+   name Dot21
+   xpos 2633
+   ypos -314
+  }
+  Grade {
+   channels rgba
+   blackpoint 0.9
+   white_clamp true
+   name Grade8
+   xpos 2599
+   ypos -225
+  }
+push $Nfdad3800
+  Dot {
+   name Dot24
+   xpos 161
+   ypos -272
+  }
+set Nfdd66000 [stack 0]
+  Dot {
+   name Dot27
+   xpos 363
+   ypos -272
+  }
+set Nfdd81c00 [stack 0]
+  Dot {
+   name Dot29
+   xpos 566
+   ypos -272
+  }
+set Nfdd81800 [stack 0]
+  Dot {
+   name Dot31
+   xpos 765
+   ypos -272
+  }
+set Nfdd81400 [stack 0]
+  Dot {
+   name Dot3
+   xpos 963
+   ypos -272
+  }
+set Nfdd81000 [stack 0]
+  Dot {
+   name Dot8
+   xpos 1151
+   ypos -273
+  }
+set Nfdd80c00 [stack 0]
+  Dot {
+   name Dot10
+   xpos 1356
+   ypos -273
+  }
+set Nfdd80800 [stack 0]
+  Dot {
+   name Dot12
+   xpos 1552
+   ypos -273
+  }
+set Nfdd80400 [stack 0]
+  Dot {
+   name Dot14
+   xpos 1752
+   ypos -273
+  }
+set Nfdd80000 [stack 0]
+  Dot {
+   name Dot16
+   xpos 1954
+   ypos -273
+  }
+set Nfdd9fc00 [stack 0]
+  Dot {
+   name Dot18
+   xpos 2152
+   ypos -273
+  }
+set Nfdd9f800 [stack 0]
+  Dot {
+   name Dot20
+   xpos 2350
+   ypos -274
+  }
+set Nfdd9f400 [stack 0]
+  Dot {
+   name Dot22
+   xpos 2542
+   ypos -274
+  }
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*10 i}}
+   name Blur10
+   xpos 2508
+   ypos -225
+  }
+push $Nfdd66c00
+  Grade {
+   channels rgba
+   blackpoint 0.8
+   whitepoint 0.9
+   white_clamp true
+   name Grade7
+   xpos 2407
+   ypos -225
+  }
+push $Nfdd9f400
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*9 i}}
+   name Blur9
+   xpos 2316
+   ypos -225
+  }
+push $Nfdd67000
+  Grade {
+   channels rgba
+   blackpoint 0.7
+   whitepoint 0.8
+   white_clamp true
+   name Grade6
+   xpos 2209
+   ypos -225
+  }
+push $Nfdd9f800
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*8 i}}
+   name Blur8
+   xpos 2118
+   ypos -225
+  }
+push $Nfdd67400
+  Grade {
+   channels rgba
+   blackpoint 0.6
+   whitepoint 0.7
+   white_clamp true
+   name Grade5
+   xpos 2011
+   ypos -225
+  }
+push $Nfdd9fc00
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*7 i}}
+   name Blur7
+   xpos 1920
+   ypos -226
+  }
+push $Nfdd67800
+  Grade {
+   channels rgba
+   blackpoint 0.5
+   whitepoint 0.6
+   white_clamp true
+   name Grade4
+   xpos 1809
+   ypos -225
+  }
+push $Nfdd80000
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*6 i}}
+   name Blur6
+   xpos 1718
+   ypos -225
+  }
+push $Nfdd67c00
+  Grade {
+   channels rgba
+   blackpoint 0.4
+   whitepoint 0.5
+   white_clamp true
+   name Grade3
+   xpos 1609
+   ypos -225
+  }
+push $Nfdd80400
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*5 i}}
+   name Blur5
+   xpos 1518
+   ypos -225
+  }
+push $Nfdd40000
+  Grade {
+   channels rgba
+   blackpoint 0.3
+   whitepoint 0.4
+   white_clamp true
+   name Grade2
+   xpos 1413
+   ypos -225
+  }
+push $Nfdd80800
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*4 i}}
+   name Blur4
+   xpos 1322
+   ypos -225
+  }
+push $Nfdd40400
+  Grade {
+   channels rgba
+   blackpoint 0.2
+   whitepoint 0.3
+   white_clamp true
+   name Grade1
+   xpos 1208
+   ypos -225
+  }
+push $Nfdd80c00
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*3 i}}
+   name Blur3
+   xpos 1117
+   ypos -225
+  }
+push $Nfdd40800
+  Grade {
+   channels rgba
+   blackpoint 0.1
+   whitepoint 0.2
+   white_clamp true
+   name Grade13
+   xpos 1020
+   ypos -225
+  }
+push $Nfdd81000
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*2 i}}
+   name Blur2
+   xpos 929
+   ypos -225
+  }
+push $Nfdd40c00
+  Grade {
+   channels rgba
+   blackpoint 0.075
+   whitepoint 0.1
+   white_clamp true
+   name Grade14
+   xpos 825
+   ypos -225
+  }
+push $Nfdd81400
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10 i}}
+   name Blur14
+   xpos 731
+   ypos -225
+  }
+push $Nfdd41000
+  Grade {
+   channels rgba
+   blackpoint 0.05
+   whitepoint 0.075
+   white_clamp true
+   name Grade11
+   xpos 626
+   ypos -225
+  }
+push $Nfdd81800
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10/4*3 i}}
+   name Blur13
+   xpos 532
+   ypos -225
+  }
+push $Nfdd41400
+  Grade {
+   channels rgba
+   blackpoint 0.025
+   whitepoint 0.05
+   white_clamp true
+   name Grade10
+   xpos 420
+   ypos -225
+  }
+push $Nfdd81c00
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10/4*2 i}}
+   name Blur12
+   xpos 329
+   ypos -225
+  }
+push $Nfdd41800
+  Grade {
+   channels rgba
+   whitepoint 0.025
+   white_clamp true
+   name Grade9
+   xpos 221
+   ypos -225
+  }
+push $Nfdd66000
+  Blur {
+   channels rgba
+   size {{blur/10/4 i}}
+   name Blur11
+   xpos 127
+   ypos -227
+  }
+push $Nfdad3400
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix11
+   xpos 127
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix12
+   xpos 329
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix13
+   xpos 532
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix14
+   xpos 731
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix2
+   xpos 929
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix3
+   xpos 1117
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix4
+   xpos 1322
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix5
+   xpos 1518
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix6
+   xpos 1718
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix7
+   xpos 1920
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix8
+   xpos 2118
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix9
+   xpos 2316
+   ypos -163
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix10
+   xpos 2508
+   ypos -163
+  }
+  Dot {
+   name Dot59
+   xpos 2883
+   ypos -155
+  }
+push $Nfda93c00
+  Dot {
+   name Dot60
+   xpos 253
+   ypos -51
+  }
+set Nfdeeb000 [stack 0]
+  Dot {
+   name Dot61
+   xpos 452
+   ypos -51
+  }
+set Nfdeeac00 [stack 0]
+  Dot {
+   name Dot63
+   xpos 857
+   ypos -51
+  }
+set Nfdeea800 [stack 0]
+  Dot {
+   name Dot64
+   xpos 1250
+   ypos -52
+  }
+set Nfdeea400 [stack 0]
+  Dot {
+   name Dot66
+   xpos 1646
+   ypos -53
+  }
+set Nfdeea000 [stack 0]
+  Dot {
+   name Dot68
+   xpos 2046
+   ypos -53
+  }
+set Nfdf0dc00 [stack 0]
+  Dot {
+   name Dot72
+   xpos 2631
+   ypos -53
+  }
+  Grade {
+   channels rgba
+   blackpoint 0.7
+   white_clamp true
+   name Grade27
+   xpos 2597
+   ypos 36
+  }
+push $Nfdad3000
+  Dot {
+   name Dot73
+   xpos 159
+   ypos -11
+  }
+set Nfdf0d000 [stack 0]
+  Dot {
+   name Dot74
+   xpos 361
+   ypos -11
+  }
+set Nfdf0cc00 [stack 0]
+  Dot {
+   name Dot76
+   xpos 763
+   ypos -11
+  }
+set Nfdf0c800 [stack 0]
+  Dot {
+   name Dot77
+   xpos 1159
+   ypos -12
+  }
+set Nfdf0c400 [stack 0]
+  Dot {
+   name Dot79
+   xpos 1555
+   ypos -13
+  }
+set Nfdf0c000 [stack 0]
+  Dot {
+   name Dot81
+   xpos 1955
+   ypos -13
+  }
+set Nfdf33c00 [stack 0]
+  Dot {
+   name Dot85
+   xpos 2540
+   ypos -13
+  }
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*10 i}}
+   name Blur1
+   xpos 2506
+   ypos 36
+  }
+push $Nfdf0dc00
+  Grade {
+   channels rgba
+   blackpoint 0.5
+   whitepoint 0.7
+   white_clamp true
+   name Grade31
+   xpos 2012
+   ypos 35
+  }
+push $Nfdf33c00
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*7 i}}
+   name Blur18
+   xpos 1921
+   ypos 34
+  }
+push $Nfdeea000
+  Grade {
+   channels rgba
+   blackpoint 0.3
+   whitepoint 0.5
+   white_clamp true
+   name Grade33
+   xpos 1612
+   ypos 34
+  }
+push $Nfdf0c000
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*5 i}}
+   name Blur20
+   xpos 1521
+   ypos 35
+  }
+push $Nfdeea400
+  Grade {
+   channels rgba
+   blackpoint 0.1
+   whitepoint 0.3
+   white_clamp true
+   name Grade35
+   xpos 1216
+   ypos 35
+  }
+push $Nfdf0c400
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10*3 i}}
+   name Blur22
+   xpos 1125
+   ypos 35
+  }
+push $Nfdeea800
+  Grade {
+   channels rgba
+   blackpoint 0.05
+   whitepoint 0.1
+   white_clamp true
+   name Grade36
+   xpos 823
+   ypos 36
+  }
+push $Nfdf0c800
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10 i}}
+   name Blur23
+   xpos 729
+   ypos 36
+  }
+push $Nfdeeac00
+  Grade {
+   channels rgba
+   blackpoint 0.025
+   whitepoint 0.05
+   white_clamp true
+   name Grade38
+   xpos 418
+   ypos 36
+  }
+push $Nfdf0cc00
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10/4*2 i}}
+   name Blur25
+   xpos 327
+   ypos 36
+  }
+push $Nfdeeb000
+  Grade {
+   channels rgba
+   whitepoint 0.025
+   white_clamp true
+   name Grade39
+   xpos 219
+   ypos 38
+  }
+push $Nfdf0d000
+  Blur {
+   channels {{{parent.Blur11.channels}}}
+   size {{blur/10/4 i}}
+   name Blur26
+   xpos 125
+   ypos 38
+  }
+push $Nfdad2c00
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix27
+   xpos 125
+   ypos 98
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix28
+   xpos 327
+   ypos 98
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix30
+   xpos 729
+   ypos 98
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix31
+   xpos 1125
+   ypos 97
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix33
+   xpos 1521
+   ypos 97
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix35
+   xpos 1921
+   ypos 97
+  }
+  Keymix {
+   inputs 3
+   bbox B
+   name Keymix39
+   xpos 2506
+   ypos 98
+  }
+  Switch {
+   inputs 2
+   which {{quality i}}
+   name Switch2
+   xpos 2849
+   ypos 103
+  }
+  Dot {
+   name Dot75
+   xpos 3248
+   ypos 106
+  }
+  Switch {
+   inputs 2
+   which {{blur_type i}}
+   name Switch1
+   xpos 3214
+   ypos 842
+  }
+  Output {
+   name Output1
+   xpos 3214
+   ypos 1164
+  }
+  Viewer {
+   frame 316
+   input_process false
+   name Viewer1
+   xpos 3464
+   ypos 1164
+  }
+ end_group
+ Grade {
+  inputs 1+1
+  multiply {{parent.VignMult.r} {parent.VignMult.g} {parent.VignMult.b} 0}
+  black_clamp false
+  name Grade1
+  xpos 543
+  ypos 871
+  disable {{!parent.Active_1}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.CheckThreshold}}
+  name Switch4
+  xpos 543
+  ypos 1347
+ }
+ Switch {
+  inputs 2
+  which {{parent.Kernel}}
+  name Switch2
+  xpos 543
+  ypos 1618
+ }
+ Switch {
+  inputs 2
+  which {{parent.BloomSolo}}
+  name Switch5
+  xpos 543
+  ypos 1867
+ }
+ Output {
+  name Output1
+  xpos 543
+  ypos 2883
+ }
+push $Ne24ef800
+ Viewer {
+  frame_range 1-187
+  fps 25
+  name Viewer1
+  selected true
+  xpos 543
+  ypos -123
+ }
+end_group
+Viewer {
+ frame 187
+ frame_range 1-187
+ fps 25
+ name Viewer1
+ xpos -40
+ ypos -10
+}

@@ -1,0 +1,14 @@
+#! C:/Program Files/Nuke10.5v8/nuke-10.5.8.dll -nx
+version 10.5 v8
+Expression {
+ name Expression1
+ onCreate "\nn = nuke.thisNode()\nexist = False\nif 'picker' in n.knobs():\n    if not isinstance(n\['picker'], nuke.Eyedropper_Knob):\n        n.removeKnob(n.knobs()\['picker'])\n    else:\n        exist = True\nif not exist:\n    n.addKnob(nuke.Eyedropper_Knob('picker'))\n"
+ knobChanged "\nn = nuke.thisNode()\nk = nuke.thisKnob()\n\neForm = '((\{ch\}\{i:02d\}.red == \{v\}) ? \{ch\}\{i:02d\}.green : 0.0) + ((\{ch\}\{i:02d\}.blue == \{v\}) ? \{ch\}\{i:02d\}.alpha : 0.0)'\n\nif k.name() == 'inputChange':\n    input = n.input(0)\n    if input:\n        channels = \[]\n        for k,v in input.metadata().items():\n            if 'cryptomatte' in k and 'name' in k:\n                channels.append(v)\n        n\['channel'].setValues(channels)\n    \nelif k.name() == 'picker':\n    v = k.value()\n    x = v\[-2]\n    y = v\[-1]\n\n    input = n.input(0)\n    if input:\n        channel = n\[\"channel\"].value()+\"00.red\"\n        color = n.sample(channel, x, y)\n        \n        clist = \[float(c.strip()) for c in n\['list'].value().split(',')] if n\['list'].value() else \[]\n        if float(str(color)) not in clist:\n            clist.append(color)\n        n\['list'].setValue(\", \".join(\[str(c) for c in clist]))\n        exp = \"\"\n        for color in clist:\n            for i in range(3):\n                if exp:\n                    exp += \" + \"\n                exp += eForm.format(ch=n\[\"channel\"].value(), i=i, v=str(color))\n        n\['expr3'].setValue(exp)\n\nelif k.name() == 'list':\n    clist = \[float(c.strip()) for c in n\['list'].value().split(',')] if n\['list'].value() else \[]\n    exp = \"\"\n    for color in clist:\n        for i in range(3):\n            if exp:\n                exp += \" + \"\n            exp += eForm.format(ch=n\[\"channel\"].value(), i=i, v=str(color))\n    n\['expr3'].setValue(exp)\n    \n"
+ selected true
+ xpos 485
+ ypos 100
+ addUserKnob {20 User}
+ addUserKnob {4 channel l Channel M {Cryptomatte_VRE Crypto_User_VRE}}
+ addUserKnob {1 list l "Color List"}
+ addUserKnob {26 picker_label l Pick T ""}
+}
